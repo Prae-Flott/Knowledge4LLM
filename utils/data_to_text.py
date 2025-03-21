@@ -82,6 +82,7 @@ def extract_features_from_time_series(data, datetime_col='timestamp', value_col=
             
             # Create text description
             description = (
+                f"Data {value_col}, "
                 f"From {current_time.strftime('%Y-%m-%d %H:%M:%S')} to "
                 f"{window_end.strftime('%Y-%m-%d %H:%M:%S')}, "
                 f"the minimum value was {min_val:.2f}, "
