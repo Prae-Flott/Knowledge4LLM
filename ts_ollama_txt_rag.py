@@ -12,7 +12,7 @@ def main():
     filename = "peter-pan.txt"
     paragraphs = parse_file(filename)
 
-    # Generate or load embeddings for the paragraphs.
+    # Generate or load embeddings for the paragraphs.pip 
     embeddings = get_embeddings(filename, "nomic-embed-text", paragraphs)
 
     # Get a query from the user and generate its embedding.
