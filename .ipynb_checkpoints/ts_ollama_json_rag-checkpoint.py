@@ -1,19 +1,20 @@
 import ollama
-from utils.text_spliter import parse_file
+from utils.json_spliter import split_data_by_count
 from utils.embedding_utils import get_embeddings, find_most_similar
 
 def main():
     SYSTEM_PROMPT = (
-        "You are a helpful reading assistant who answers questions based on snippets of text provided in context. "
+        "You are a data analysis expert specializing in time series. Analyze the provided time series data (timestamps and numerical measurements).\n"
+        "Identify trends, anomalies, and key statistics, and explain your findings clearly and concisely based solely on the data.\n"
         "Answer only using the context provided, being as concise as possible. If you're unsure, just say that you don't know.\n"
         "Context:\n"
     )
     # Read and split the text file into paragraphs.
-    filename = "peter-pan.txt"
-    paragraphs = parse_file(filename)
+    filename = "battery_status.json"
+    data_chunks = split_data_by_count(filename, 10)
 
     # Generate or load embeddings for the paragraphs.
-    embeddings = get_embeddings(filename, "nomic-embed-text", paragraphs)
+    embeddings = get_embeddings(filename, "nomic-embed-text", data_chunks)
 
     # Get a query from the user and generate its embedding.
     prompt = input("What do you want to know? -> ")
@@ -24,14 +25,14 @@ def main():
 
     # Create a chat prompt by combining a system prompt and the context from the similar paragraphs.
     response = ollama.chat(
-        model="deepseek-r1:14b",
+        model="deepseek-r1:1.5b",
         messages=[
             {
                 "role": "system",
                 "content": SYSTEM_PROMPT
-                           + "\n".join(paragraphs[idx] for _, idx in most_similar_chunks),
+                           + "\n".join(data_chunks[idx] for _, idx in most_similar_chunks),
             },
-            {"role": "user", "content": prompt},   
+            {"role": "user", "content": prompt},
         ],
     )
     print("\n\n")
