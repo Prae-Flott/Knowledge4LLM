@@ -1,0 +1,94 @@
+Komponenten:
+
+Eine der kritischsten Komponenten, die identifiziert wurde, ist die Dockingstation (80% der Experten stimmen zu), da Ausfälle beim Andocken direkt die Fähigkeit des Roboters beeinträchtigen können, sich aufzuladen und den Betrieb fortzusetzen.
+
+Eine der kritischsten Komponenten, die identifiziert wurde, ist der Kamerasensor (40% der Experten stimmen zu), da die visuelle Wahrnehmung für die Navigation und Umweltbewusstsein unerlässlich ist.
+
+Eine der kritischsten Komponenten, die identifiziert wurde, ist das Radsystem (100% der Experten stimmen zu), da jede Fehlfunktion hier direkt die Fähigkeit des Roboters beeinträchtigt, sich zu bewegen.
+
+Eine der kritischsten Komponenten, die identifiziert wurde, ist der Odometriesensor (40% der Experten stimmen zu), der entscheidend für die Positionsbestimmung und die Gewährleistung einer genauen Bewegung ist.
+
+Eine der kritischsten Komponenten, die identifiziert wurde, ist der IR-Sensor (60% der Experten stimmen zu), da er eine wichtige Rolle bei der Hinderniserkennung und der Nahbereichsnavigation spielt.
+
+Eine der kritischsten Komponenten, die identifiziert wurde, ist der Motor (40% der Experten stimmen zu), da er die Bewegung antreibt und jeder Ausfall den Roboter vollständig immobilisieren kann.
+
+Fehlermuster:
+
+Eines der fünf am häufigsten genannten kritischen Fehlermuster ist Kameraverunreinigung (80% der Experten stimmen zu), bei dem die Kamera nach längerer Nutzung mit Staub, Öl oder anderen Substanzen bedeckt wird und nicht mehr richtig funktioniert.
+
+Eines der fünf am häufigsten genannten kritischen Fehlermuster ist IR-Sensorverunreinigung (80% der Experten stimmen zu), bei dem die Infrarotsensoren nach längerer Nutzung mit Staub, Öl oder ähnlichen Substanzen bedeckt werden und abnormales Verhalten zeigen.
+
+Eines der fünf am häufigsten genannten kritischen Fehlermuster ist Radblockade (80% der Experten stimmen zu), bei dem das Rad oder Getriebe während des Betriebs durch ein Objekt aus der Umgebung blockiert wird und die normale Bewegung verhindert wird.
+
+Eines der fünf am häufigsten genannten kritischen Fehlermuster ist Roboterblockade (40% der Experten stimmen zu), bei dem der Roboter an einem Ort stecken bleibt und sich nicht mehr selbstständig bewegen kann.
+
+Eines der fünf am häufigsten genannten kritischen Fehlermuster ist Ladeunfähigkeit (40% der Experten stimmen zu), bei dem der Roboter aufgrund von Problemen wie Batterieproblemen, Kontaktfehlern oder Fehlfunktionen der Station nicht an der Dockingstation aufgeladen werden kann.
+
+Vorkommen:
+
+Laut Expertenmeinung tritt der Ausfall der Kameraverunreinigung mit mäßiger Häufigkeit auf, d.h., er tritt ungefähr einmal alle 10 bis 100 Betriebsstunden auf.
+
+Laut Expertenmeinung tritt der Ausfall der IR-Sensorverunreinigung mit mäßiger Häufigkeit auf, d.h., er tritt ungefähr einmal alle 10 bis 100 Betriebsstunden auf.
+
+Laut Expertenmeinung tritt der Ausfall der Radblockade mit hoher/niedriger Häufigkeit auf, d.h., er tritt ungefähr einmal alle 1 bis 10 Betriebsstunden oder einmal alle 100 bis 10.000 Betriebsstunden auf, je nach Betriebskontext.
+
+Laut Expertenmeinung tritt der Ausfall der Roboterblockade mit hoher Häufigkeit auf, d.h., er tritt ungefähr einmal alle 1 bis 10 Betriebsstunden auf.
+
+Laut Expertenmeinung tritt der Ausfall der Ladeunfähigkeit mit geringer Häufigkeit auf, d.h., er tritt ungefähr einmal alle 100 bis 10.000 Betriebsstunden auf.
+
+Schwere:
+
+Laut Expertenmeinung ist die Schwere des Ausfalls der Kameraverunreinigung mäßig, d.h., im Falle eines schweren Risikoversagens im Robotersystem können Teilsysteme ausfallen oder Fehlfunktionen auftreten, die die Erreichung des beabsichtigten Zwecks behindern.
+
+Laut Expertenmeinung ist die Schwere des Ausfalls der IR-Sensorverunreinigung hoch, d.h., ein schwerwiegender Ausfall im Robotersystem könnte zu Systemausfällen, Verletzungen und finanziellen Verlusten führen.
+
+Laut Expertenmeinung ist die Schwere des Ausfalls der Radblockade hoch, d.h., ein schwerwiegender Ausfall im Robotersystem könnte zu Systemausfällen, Verletzungen und finanziellen Verlusten führen.
+
+Laut Expertenmeinung ist die Schwere des Ausfalls der Roboterblockade gering, d.h., bei einem geringfügigen Risikoversagen erleidet das Robotersystem eine teilweise Ausfallzeit, was zu harmlosen Folgen führt, jedoch die Roboterleistung verringert.
+
+Laut Expertenmeinung ist die Schwere des Ausfalls der Ladeunfähigkeit hoch/gering, d.h., ein schwerwiegender Ausfall im Robotersystem könnte zu Systemausfällen, Verletzungen und finanziellen Verlusten führen oder im weniger schweren Fall zu teilweiser Ausfallzeit und einer Verringerung der Roboterleistung.
+
+Erkennbarkeit:
+
+Laut Expertenmeinung ist die Erkennbarkeit des Ausfalls der Kameraverunreinigung mäßig, d.h., es gibt eine mäßige Wahrscheinlichkeit, den Ausfall mit bewährten Nachweismethoden aus vergleichbaren Produkten unter neuen Betriebs- oder Randbedingungen zu erkennen.
+
+Laut Expertenmeinung ist die Erkennbarkeit des Ausfalls der IR-Sensorverunreinigung mäßig, d.h., es gibt eine mäßige Wahrscheinlichkeit, den Ausfall mit bewährten Nachweismethoden aus vergleichbaren Produkten unter neuen Betriebs- oder Randbedingungen zu erkennen.
+
+Laut Expertenmeinung ist die Erkennbarkeit des Ausfalls der Radblockade hoch, d.h., es gibt eine hohe Wahrscheinlichkeit, den Ausfall mit bewährten Nachweismethoden zu erkennen, und die Wirksamkeit der Nachweismaßnahme wurde für dieses Produkt nachgewiesen.
+
+Laut Expertenmeinung ist die Erkennbarkeit des Ausfalls der Roboterblockade sehr hoch, d.h., es gibt eine sehr hohe Wahrscheinlichkeit, den Ausfall mit gut etablierten Nachweismethoden für Vorgängergenerationen zu erkennen. Die Wirksamkeit der Nachweismaßnahme wurde für dieses Produkt nachgewiesen.
+
+Laut Expertenmeinung ist die Erkennbarkeit des Ausfalls der Ladeunfähigkeit hoch/mäßig, d.h., es gibt eine hohe Wahrscheinlichkeit, den Ausfall mit bewährten Nachweismethoden zu erkennen, oder eine mäßige Wahrscheinlichkeit mit etablierten Nachweismethoden aus vergleichbaren Produkten unter neuen Betriebs- oder Randbedingungen.
+
+Fehlermuster-Kameraverunreinigung wird hauptsächlich durch Faktoren wie das Fehlen oder die unzureichende Abdichtung des Kameragehäuses, Staub, Öl und andere aggressive Substanzen sowie Staub, der durch den Roboter aufgewirbelt wird und sich auf den Oberflächen ablagert, verursacht. Diese Verunreinigung kann zu verschiedenen Komponenten-Effekten führen, darunter eine verschlechterte Kamerafunktion, schlechten Lichteinfall, unscharfe Bilder, Abnutzung oder Beschädigung der Linsenoberfläche und die Notwendigkeit einer Reinigung, bei der es zu weiteren Beschädigungen durch Kratzer kommen kann. Auf Systemebene beeinträchtigt dieser Ausfall die Computer-Vision-Fähigkeiten des Roboters, verursacht falsche Klassifikationen, schlechte Navigation und den Verlust der räumlichen Orientierung, wodurch die Objekterkennung funktionsunfähig wird. Für das gesamte Multi-Roboter-System sind die Auswirkungen noch gravierender, da die Pfadplanung beeinträchtigt wird, das Risiko von Kollisionen steigt, die Gesamtleistung des Systems sinkt und die Ausfallrate in der Flotte steigt, was zu häufigeren Kollisionen führt.
+
+Fehlermuster-IR-Sensorverunreinigung wird durch schlechte Abdichtung des Sensorgehäuses, Staub, Öl und andere aggressive Substanzen sowie Staub, der durch den Roboter aufgewirbelt wird und sich auf den bodennahen Sensoren ablagert, verursacht. Diese Verunreinigung kann zu schlechter Sensorleistung, der Notwendigkeit einer Reinigung (die während des Prozesses Schäden verursachen kann), Störungen durch Staub während der Erkennung und Kratzern auf den Sensoroberflächen führen. Auf Systemebene beeinflusst dieser Ausfall die Distanzmessungen, die Hindernisvermeidung und die Gesamtwahrnehmung des Roboters, was zu falschen Einschätzungen der Umgebung führt. Für das gesamte Multi-Roboter-System führt dieser Ausfall zu reduzierter Leistung, einer höheren Ausfallrate in der Flotte und einer höheren Häufigkeit von Kollisionen.
+
+Fehlermuster-Radblockade wird durch mehrere Faktoren verursacht, darunter zu viel Spiel zwischen Rad und Gehäuse, Getriebe- oder Motorverschleiß oder -beschädigung, Radverschmutzung oder -verschleiß, mechanische Komponentenbruch, Schmutzansammlung vom Boden, kleine Objekte wie Schrauben oder Nägel, die ins Rad gelangen, Kollisionen mit Hindernissen und Kabel oder Fasern, die sich um das Rad wickeln. Dies kann zu Komponenten-Effekten wie mechanischen Schäden, zu hohem Strom, der die Elektronik überlastet, hohem Drehmoment, das das Getriebe und den Motor belastet, zunehmendem Verschleiß dieser Komponenten und potenziellen Schäden am Rad oder an der Achse führen, wenn das Problem weiterhin besteht. Auf Systemebene kann dieser Ausfall die Bewegung des Roboters erschweren oder unmöglich machen, den Roboter vom Kurs abbringen, zu unvorhersehbaren Totalausfällen führen und sowohl elektrische als auch im schlimmsten Fall mechanische Schäden verursachen. Dieser Ausfall beeinträchtigt das gesamte Multi-Roboter-System erheblich, verringert die Leistung, blockiert wichtige Wege oder Routen, erfordert externe Eingriffe und verhindert die Erfüllung von Aufgaben.
+
+Fehlermuster-Roboterblockade kann durch unzureichende oder falsche Sensierung, unvorhergesehene Objektplatzierungen oder unebenes Terrain, den Roboter, der im Kreis fährt, das Überfahren von kleinen Objekten, Navigationsfehler (z.B. zwei Roboter, die denselben Punkt erreichen wollen), und Gehäuse- oder Komponentenfehler des Chassis verursacht werden. Dies führt zu Komponenten-Effekten wie mechanischen Schäden, potenziellen Gehäuseschäden, Überlastung oder Blockierung des Motors, dem Abreißen wichtiger Teile oder in einigen Fällen ohne Schäden, aber einer Unfähigkeit, das Ziel unabhängig zu erreichen. Auf Systemebene erschwert dieser Ausfall die Bewegung oder verhindert, dass der Roboter seine Aufgabe abschließt, und verringert seine Lebensdauer durch Kollisionen und Abnutzung. Auf der Multi-Roboter-Systemebene verhindert dieser Ausfall die Erfüllung des Ziels, und wenn mehrere Roboter blockiert sind, kann die gesamte Aufgabe nicht abgeschlossen werden.
+
+Fehlermuster-Ladeunfähigkeit wird durch mehrere Faktoren verursacht, darunter falsche Positionierung oder Ausrichtung beim Andocken aufgrund von Sensorfehlern, defekte Ladestation-Kontakte, defekte Roboterkontakte, Roboterfehler, Korrosion der Kontakte und Alterung der Batterie oder Elektronik. Dieser Ausfall kann zu Komponenten-Effekten wie potenziellen Batterieschäden, Tiefentladung (wenn nicht reagiert wird) und letztlich Batterieausfall führen. Auf Systemebene führt der Ausfall zu abnormalen Verhaltensweisen wie unregelmäßiger Bewegung, unerwarteten Neustarts, Kamerafehlern, Kollisionen und letztlich einem vollständigen Stillstand des Roboters. Im Multi-Roboter-System kann dieser Ausfall die benötigte Zeit für die Aufgabe verlängern oder das Ziel unerreichbar machen, die Ladestation funktionsunfähig machen und andere Roboter blockieren, die sich nicht aufladen können, wenn sie durch den ausgefallenen Roboter blockiert werden. Wenn mehr Roboter blockiert sind, kann die gesamte Aufgabe nicht abgeschlossen werden.
+
+Daten:
+
+Das Fehlermuster Kameraverunreinigung wird mit dem ROS2-Topic /camera_image überwacht, das Bilddaten liefert, um Verunreinigungserscheinungen zu erkennen.
+
+Das Fehlermuster IR-Sensorverunreinigung wird über die ROS2-Topics /ir_intensity, /ir_opcode, /cliff_intensity und /hazard_detection verfolgt, die die Leistung der Infrarotsensoren und die damit verbundene Gefahrenmeldung überwachen.
+
+Das Fehlermuster Radblockade wird über die ROS2-Topics /wheel_status, /wheel_ticks, /slip_status, /odom, /mouse und /imu erkannt, die den Rad- und Bewegungsstatus, die Odometrie und den Slip überwachen.
+
+Das Fehlermuster Roboterblockade wird über die ROS2-Topics /wheel_status, /stop_status, /mouse, /cliff_intensity, /hazard_detection, /slip_status und /kidnap_status identifiziert, die die Bewegungen des Roboters, Stopps und die Gefahrenmeldung überwachen.
+
+Das Fehlermuster Ladeunfähigkeit wird mit den ROS2-Topics /battery_state und /dock_status beobachtet, die den Batteriestatus und die Dockingbedingungen überwachen.
+
+
+
+
+
+
+
+
+
+ 
+

@@ -1,0 +1,627 @@
+Connect Create® 3 to Wi-Fi
+The Basics
+Follow the main guide for getting started here.
+
+Select RMW Implementation
+If you are planning to use ROS 21, make sure you have selected the matching RMW (ROS 2 middleware) implementation as the rest of the nodes in your system. This can be found in the Application → Configuration menu in the Create® 3 robot's web server, shown in the below image.
+
+Application Configuration Detail
+
+The default RMW for ROS 2 Galactic is Cyclone DDS. Be sure to click "save" after making any changes, and then restart the application.
+
+Attention
+
+As of Create 3 software version G.2.2, there is a memory leak in Cyclone DDS that can cause the robot to reboot after a few hours of use. Please monitor this issue for further information. Fast-DDS does not have this problem.
+
+See ROS 2 Middleware Config for more information about RMW specific choices and configuration requirements.
+
+A detailed rundown of the features of the robot webserver can be found on the Application page.
+
+Using Multiple Robots
+Important
+
+If you plan to use multiple Create® 3 robots connected to the same Wi-Fi network, then you must follow the Multi-Robot Setup documentation
+
+
+
+
+
+
+
+Using multiple Create® 3 robots
+This page describes how to manage multiple Create® 3 robots connected to the same Wi-Fi network. Note that if you have multiple robots, but they are not on the same network, then you can ignore this as they are effectively isolated.
+
+Attention
+
+If you have multiple Create® 3 robots connected to the same Wi-Fi network it is required to adopt at least one of the following procedures; otherwise, they will not work.
+
+Basic Concepts on ROS 2 Communication
+ROS 21 communication is based on the underlying DDS middleware. After two ROS processes discover each other, they will automatically start to communicate if their topics, services, or actions match.
+
+The default discovery protocol used by ROS 2 is based on broadcast. This means that when a ROS 2 process is started it will advertise its own discovery messages to all other ROS processes that are connected to the same network.
+
+The main advantage of using a broadcast discovery protocol is that as long as your ROS 2 processes are connected to the same network, they will automatically connect to each other and start to communicate. The basic use case does not require any special configuration from the user.
+
+Potential Problems with Multiple Robots
+Having ROS 2 processes automatically start communication is not always a good thing. Usually if two ROS 2 processes that are meant to be executed in isolation start communicating, they will end up mixing up messages between processes without being able to understand if what they are receiving was meant for them or for the other process (or in this case, robot).
+
+Important
+
+Create® 3 robots should never communicate with each other.
+
+There may be cases where two ROS 2 processes internal to a robot have no intention to communicate, but happen to do so since they have the same topic names and just happen to be under the same network. On the other hand, users with multiple robots running at the same time may want to be able to select to which robot to communicate from their laptop, while still preventing them to communicate between each other.
+
+The following sections will describe how to mitigate and solve these problems. Different solutions are presented, as each is suitable for different scenarios.
+
+ROS 2 Namespaces
+The easiest way to prevent multiple ROS 2 processes from communicating with each other is to use ROS 2 namespaces. As you may know, each ROS 2 entity is uniquely identified by its name (for example the topic named cmd_vel is used to control the robot). By specifying a namespace for a ROS 2 process you are effectively pre-pending a word in front of the name of all the entities created by it.
+
+The ROS 2 namespace can be set from the Application → Configuration menu in the Create® 3 robot's web server. Note that the namespace name must start with a slash /.
+
+If you have two robots and you specify the following namespaces: /robot_1 and /robot_2 you will then be able to see their individual topics well-separated:
+
+$ ros2 topic list
+/robot_1/cmd_vel
+/robot_1/dock
+/robot_1/odom
+...
+/robot_2/cmd_vel
+/robot_2/dock
+/robot_2/odom
+...
+Note that if you want to publish or subscribe to a specific topic, now you have to prepend the appropriate namespace in front of it. For example:
+
+$ ros2 topic echo /robot_1/odom
+Using a custom ROS 2 namespace for your robots is the recommended solution if you don't have too many robots or if you have an additional application that needs to communicate with all of them at the same time.
+
+ROS 2 Domain IDs
+A different approach for isolating multiple ROS 2 processes consists in specifying the ROS_DOMAIN_ID environment variable.
+
+If two processes use a different ROS_DOMAIN_ID value they will be completely isolated from each other, which means that they will not only avoid communication, but they also will not be able to discover each other. You can read more details about this variable in the ROS 2 official documentation.
+
+The ROS 2 domain ID can be set from the Application → Configuration menu in the Create® 3 robot's web server. Note that the domain ID must be a value between 0 and 101. By default, ROS 2 processes use a ROS_DOMAIN_ID value of 0.
+
+If you want to communicate with a specific robot from your laptop, it is required to set the corresponding value for the domain ID. For example:
+
+$ export ROS_DOMAIN_ID=42
+$ ros2 topic list
+/cmd_vel
+/dock
+/odom
+...
+Note that a ROS 2 process can only use one domain ID at a time. If needed you can always have multiple robots under the same domain ID and then also add namespaces to prevent them from communicating.
+
+Using a custom ROS 2 domain ID for your robots is the recommended solution when you have a large number of robots and you want your tools to communicate only with a subset of them.
+
+
+
+
+
+
+
+sing multiple Create® 3 robots
+This page describes how to manage multiple Create® 3 robots connected to the same Wi-Fi network. Note that if you have multiple robots, but they are not on the same network, then you can ignore this as they are effectively isolated.
+
+Attention
+
+If you have multiple Create® 3 robots connected to the same Wi-Fi network it is required to adopt at least one of the following procedures; otherwise, they will not work.
+
+Basic Concepts on ROS 2 Communication
+ROS 21 communication is based on the underlying DDS middleware. After two ROS processes discover each other, they will automatically start to communicate if their topics, services, or actions match.
+
+The default discovery protocol used by ROS 2 is based on broadcast. This means that when a ROS 2 process is started it will advertise its own discovery messages to all other ROS processes that are connected to the same network.
+
+The main advantage of using a broadcast discovery protocol is that as long as your ROS 2 processes are connected to the same network, they will automatically connect to each other and start to communicate. The basic use case does not require any special configuration from the user.
+
+Potential Problems with Multiple Robots
+Having ROS 2 processes automatically start communication is not always a good thing. Usually if two ROS 2 processes that are meant to be executed in isolation start communicating, they will end up mixing up messages between processes without being able to understand if what they are receiving was meant for them or for the other process (or in this case, robot).
+
+Important
+
+Create® 3 robots should never communicate with each other.
+
+There may be cases where two ROS 2 processes internal to a robot have no intention to communicate, but happen to do so since they have the same topic names and just happen to be under the same network. On the other hand, users with multiple robots running at the same time may want to be able to select to which robot to communicate from their laptop, while still preventing them to communicate between each other.
+
+The following sections will describe how to mitigate and solve these problems. Different solutions are presented, as each is suitable for different scenarios.
+
+ROS 2 Namespaces
+The easiest way to prevent multiple ROS 2 processes from communicating with each other is to use ROS 2 namespaces. As you may know, each ROS 2 entity is uniquely identified by its name (for example the topic named cmd_vel is used to control the robot). By specifying a namespace for a ROS 2 process you are effectively pre-pending a word in front of the name of all the entities created by it.
+
+The ROS 2 namespace can be set from the Application → Configuration menu in the Create® 3 robot's web server. Note that the namespace name must start with a slash /.
+
+If you have two robots and you specify the following namespaces: /robot_1 and /robot_2 you will then be able to see their individual topics well-separated:
+
+$ ros2 topic list
+/robot_1/cmd_vel
+/robot_1/dock
+/robot_1/odom
+...
+/robot_2/cmd_vel
+/robot_2/dock
+/robot_2/odom
+...
+Note that if you want to publish or subscribe to a specific topic, now you have to prepend the appropriate namespace in front of it. For example:
+
+$ ros2 topic echo /robot_1/odom
+Using a custom ROS 2 namespace for your robots is the recommended solution if you don't have too many robots or if you have an additional application that needs to communicate with all of them at the same time.
+
+ROS 2 Domain IDs
+A different approach for isolating multiple ROS 2 processes consists in specifying the ROS_DOMAIN_ID environment variable.
+
+If two processes use a different ROS_DOMAIN_ID value they will be completely isolated from each other, which means that they will not only avoid communication, but they also will not be able to discover each other. You can read more details about this variable in the ROS 2 official documentation.
+
+The ROS 2 domain ID can be set from the Application → Configuration menu in the Create® 3 robot's web server. Note that the domain ID must be a value between 0 and 101. By default, ROS 2 processes use a ROS_DOMAIN_ID value of 0.
+
+If you want to communicate with a specific robot from your laptop, it is required to set the corresponding value for the domain ID. For example:
+
+$ export ROS_DOMAIN_ID=42
+$ ros2 topic list
+/cmd_vel
+/dock
+/odom
+...
+Note that a ROS 2 process can only use one domain ID at a time. If needed you can always have multiple robots under the same domain ID and then also add namespaces to prevent them from communicating.
+
+Using a custom ROS 2 domain ID for your robots is the recommended solution when you have a large number of robots and you want your tools to communicate only with a subset of them.
+
+
+
+
+
+
+
+Install ROS 2 Humble with Create 3 Messages on an Ubuntu 22.04 Machine
+Before you start
+These directions should work on a machine natively running Ubuntu1 22.04, as well as in a virtualized container within another operating system. Note that there might be some network setup required if in a virtualized container; for example, RMWs seem to like running in a bridged network configuration rather than a NATted one.
+
+These directions follow Open Robotics' official documentation on Installing ROS 2 on Ubuntu Linux, and more detailed information about what the commands below do can be found there.
+
+Important
+
+Some single board computers may have board specific instructions that differ from the step-by-step process outlined below. These instructions are available for the NavQPlus and Raspberry Pi® 4.
+
+Step-by-step
+If you haven't already, download and install Ubuntu® 22.04 64-bit onto your machine. You may choose either the desktop (for a GUI) or server (for console-only) install.
+
+Once logged in, check to ensure that you are using a UTF-8 locale by typing
+
+echo $LANG
+and ensuring "UTF-8" is at the end of the returned string.
+
+Ensure that the Ubuntu Universe repository is enabled by checking the output of this command:
+
+apt-cache policy | grep universe
+which should output a line like
+
+500 http://us.archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+  release v=22.04,o=Ubuntu,a=jammy,n=jammy,l=Ubuntu,c=universe,b=amd64
+If it does not, execute the following:
+
+sudo apt update && sudo apt install software-properties-common && sudo add-apt-repository universe
+Add the ROS 22 apt repository, first by installing curl
+
+sudo apt install curl
+then authorizing the Open Robotics GPG key
+
+sudo curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg
+and then adding the repository to your computer's sources list
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu $(source /etc/os-release && echo $UBUNTU_CODENAME) main" | sudo tee /etc/apt/sources.list.d/ros2.list > /dev/null
+Make sure your other packages are up to date
+
+sudo apt update && sudo apt upgrade
+And then install ROS 2. If you have a graphical user environment, use
+
+sudo apt install -y ros-humble-desktop
+otherwise just use the base (barebones) install
+
+sudo apt install -y ros-humble-ros-base
+Next add the Create® 3 messages:
+
+sudo apt install -y ros-humble-irobot-create-msgs
+We also recommend installing a few other packages:
+
+sudo apt install -y build-essential python3-colcon-common-extensions python3-rosdep ros-humble-rmw-cyclonedds-cpp
+In order to have your environment ready to go, we recommend auto-running the following when you open a new session:
+
+echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+At this point, we recommend setting your default RMW (ROS 2 middleware). The RMW you set here has to match the RMW on your robot, which can be found from its Application Configuration page. More detail on RMW can be found here. Right now, the Create® 3 robot supports rmw_cyclonedds_cpp and rmw_fastrtps_cpp. The default for Humble is rmw_fastrtps_cpp. Depending on your robot's RMW implementation, type one of the following:
+
+echo "export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
+or
+
+echo "export RMW_IMPLEMENTATION=rmw_fastrtps_cpp" >> ~/.bashrc
+Finally, either log out and log back in, or simply
+
+source ~/.bashrc
+If both your computer and robot are on the same network, you should now be able to test things out with a ros2 topic list. If this does not work, please refer to ROS 2 Network Configuration for further configuration ideas. A full Create® 3 API description can be found here.
+
+
+
+
+
+
+
+ROS 2 Middleware (RMW) Configuration
+ROS 21 is built on top of DDS/RTPS as its middleware, which provides advanced networking features such as: discovery, serialization and transportation. This ROS 2 middleware is abbreviated RMW for short.
+
+The middleware running on the robot can be selected using the Application Configuration page on the webserver. Note that the choice of middleware available may be restricted by the firmware installed on your robot; check the releases for more details on available firmware.
+
+This page contains some examples that may be useful when interacting with the iRobot® Create® 3.
+
+Important
+
+Depending on the ROS 2 RMW used, the syntax for configuring the network will be different. We recommend to visit the RMW vendor documentation for more details.
+
+You can choose a RMW implementation on your machine using
+
+export RMW_IMPLEMENTATION=name-of-the-RMW
+Currently, the only supported RMW implementations are: rmw_cyclonedds_cpp and rmw_fastrtps_cpp. See here for more info on the different RMW vendors.
+If you are using a bash shell (default on Ubuntu), you can set a default RMW adding the above line to your .bashrc file. You may have already set a default RMW in this file if you followed our ROS 2 Galactic or ROS 2 Humble installation instructions; in that case, you can change the name of the RMW by editing your .bashrc file using your preferred text editor. Nano is an option for a text editor that is standard on most Ubuntu installations. You can also install it using
+
+sudo apt-get update && sudo apt-get install nano
+Then the file can be opened and edited
+nano ~/.bashrc
+Then scroll to the bottom of the file and replace the current name-of-the-rmw with either rmw_cyclonedds_cpp and rmw_fastrtps_cpp. Once you've changed the RMW, press Ctrl-X to exit nano and save the file. Finally, either log out and log back in, or simply
+
+source ~/.bashrc
+On the robot the same can be controlled through the Create® 3 webserver.
+
+Important
+
+Always make sure that all the ROS 2 processes you are using have selected the same RMW implementation.
+
+Fast-DDS
+Fast-DDS allows to specify DDS configuration through an XML file. In order to apply a configuration, the path to the XML file must be provided through the following environment variable:
+
+export FASTRTPS_DEFAULT_PROFILES_FILE=/path/to/the/xml/profile
+Detailed network configurations are described in the Fast-DDS documentation.
+
+Multiple Network Interfaces
+Fast-DDS supports multiple network interfaces out of the box. A ROS 2 process will automatically use all the interfaces that were available when it started (it will not use network interfaces activated while the process was already running).
+
+Disable Multicast
+Some networks (e.g., academic or corporate Wi-Fi) may block the multicast packets used by ROS 2 by default. The following XML profile can be used on your laptop (or compute board) to force using unicast and directly connect to the IP address of your robot.
+
+The file must be edited replacing ROBOT_IP with the actual IP value.
+
+<?xml version="1.0" encoding="UTF-8" ?>
+<profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+   <participant profile_name="unicast_connection" is_default_profile="true">
+       <rtps>
+           <builtin>
+               <metatrafficUnicastLocatorList>
+                   <locator/>
+               </metatrafficUnicastLocatorList>
+               <initialPeersList>
+                   <locator>
+                       <udpv4>
+                           <address>ROBOT_IP</address>
+                       </udpv4>
+                   </locator>
+               </initialPeersList>
+           </builtin>
+       </rtps>
+   </participant>
+</profiles>
+Cyclone DDS
+Cyclone DDS allows to specify DDS configuration through an XML file. In order to apply a configuration, the path to the XML file must be provided through the following environment variable:
+
+export CYCLONEDDS_URI=/path/to/the/xml/profile
+Detailed network configurations are described in the Cyclone DDS documentation.
+
+Multiple Network Interfaces
+This feature requires Cyclone DDS version 0.8.0 or higher. Use the following XML profile specifying the name of all the network interfaces you want to use. For example usb0 and wlan0 in this example.
+
+Galactic and Humble
+<CycloneDDS>
+   <Domain>
+     <General>
+        <NetworkInterfaceAddress>usb0,wlan0</NetworkInterfaceAddress>
+    </General>
+   </Domain>
+</CycloneDDS>
+Humble and future releases
+<CycloneDDS>
+   <Domain>
+     <General>
+        <Interfaces>
+          <NetworkInterface name="usb0" />
+          <NetworkInterface name="wlan0" />
+        </Interfaces>
+    </General>
+   </Domain>
+</CycloneDDS>
+Note that the specified network interfaces must be already active when the ROS 2 process is started.
+
+Attention
+
+If the robot is running with a Compute Board like a Raspberry Pi® or an NVIDIA® Jetson™ connected via USB, then the robot is using a multiple interface Cyclone DDS config file to communicate both over usb0 and wlan0. We have found that with CycloneDDS version 0.8.1, for an Ubuntu laptop to see the robot topics with CycloneDDS when running multiple interfaces, the laptop must use the configuration option:
+
+<CycloneDDS>
+   <Domain>
+     <General>
+        <DontRoute>true</DontRoute>
+    </General>
+   </Domain>
+</CycloneDDS>
+Disable Multicast
+Some networks (e.g. corporate WiFi) may block the multicast packets used by ROS 2 by default. The following XML profile can be used on your laptop (or compute board) to force using unicast and directly connect to the IP address of your robot.
+
+The file must be edited replacing ${ROBOT_IP} with the actual IP value, or exporting the value as an environment variable.
+
+Galactic and Humble
+<CycloneDDS>
+  <Domain>
+    <Id>any</Id>
+    <General>
+      <NetworkInterfaceAddress>auto</NetworkInterfaceAddress>
+      <AllowMulticast>false</AllowMulticast>
+      <EnableMulticastLoopback>true</EnableMulticastLoopback>
+    </General>
+    <Discovery>
+      <ParticipantIndex>0</ParticipantIndex>
+      <Peers>
+        <Peer Address="${ROBOT_IP}:7410"/>
+      </Peers>
+    </Discovery>
+  </Domain>
+</CycloneDDS>
+Humble and future releases
+<CycloneDDS>
+  <Domain>
+    <Id>any</Id>
+    <General>
+      <Interfaces>
+        <NetworkInterface autodetermine="true" />
+      </Interfaces>
+      <AllowMulticast>false</AllowMulticast>
+      <EnableMulticastLoopback>true</EnableMulticastLoopback>
+    </General>
+    <Discovery>
+      <ParticipantIndex>0</ParticipantIndex>
+      <Peers>
+        <Peer Address="${ROBOT_IP}:7410"/>
+      </Peers>
+    </Discovery>
+  </Domain>
+</CycloneDDS>
+
+
+
+
+
+
+
+Fast DDS Discovery Server
+This page gives instructions on how to use a Fast DDS discovery server with the Create® 3 robot as a client. For more information on the Fast DDS discovery server, please refer to the eProsima documentation.
+
+We’ll use the term "computer" to refer to any SBC (single board computer), virtual machine, personal computer, etc.
+
+Configure Server
+Start the discovery server on the computer that you wish to use as your server by replacing with the computer's IP address.
+
+fastdds discovery -i 0 -l <SERVER_IP> -p 11811
+
+
+Configure Create® 3 Robot as a Client
+Important
+
+If you have enabled the discovery server previously and wish to change the Wi-Fi network you are connected to, make sure the discovery server is disabled in the configuration settings before connecting it to a new Wi-Fi network. The discovery server can be disabled by unchecking the "Enable Fast DDS discovery server?" checkbox in the webserver application settings, and then saving and restarting the application.
+
+Make sure your Create® 3 robot is connected to Wi-Fi. If it isn't, follow the directions here.
+
+Navigate to the robot’s web server via its IP address. Go to webserver application settings and enable the checkbox for the discovery server. In the field Address and port of Fast DDS discovery server, enter the IP address of your server followed by :11811 (the default port for the Fast DDS discovery server is 11811, but it is configurable).
+
+If you intend on connecting multiple robots to the same discovery server, make sure to give the Create® 3 robot a namespace. Restart the application after saving all settings. 
+
+Attention
+
+It is recommended you check the logs to confirm the discovery server has been enabled on the robot. 
+
+Configure Other Devices as Super Clients
+When using a discovery server with a Create® 3 Robot, all other devices connected to the discovery server must be set up as super clients in order to communicate with the Create® 3 Robot. Other devices could be any device that runs ROS 2 and wants to communicate with the Create® 3 Robot.
+
+Before starting, stop the ROS 2 Daemon with ros2 daemon stop.
+
+Download the .xml file found here and replace VM_IP with your device’s IP address.
+
+Navigate to your device and open terminal. If the super client and server are on the same computer, make sure to open a new terminal (separate terminal from where the server is running).
+
+Assign your .xml file as your default profile by entering the following.
+
+export FASTRTPS_DEFAULT_PROFILES_FILE=/path/to/the/xml/profile
+Now, try looking for the Create® 3 topics list by running ros2 topic list.
+
+
+
+
+
+
+
+ROS 2 APIs
+The Create® 3 robot is based on ROS 21 and, as such, it exposes all its user-facing APIs through ROS 2 entities (topics, services, actions and parameters).
+
+The purpose of this page is to give a quick overview of these ROS 2 APIs. The robot uses standard ROS 2 messages when available and implements custom messages in irobot_create_msgs for data not represented by standard messages. If you are interested in more details, have a look at the other pages in this section.
+
+ROS 2 Topics
+You can see the ROS 2 topics exposed by the Create® 3 robot running the ros2 topic list command.
+
+$ ros2 topic list -t
+/battery_state [sensor_msgs/msg/BatteryState]
+/cliff_intensity [irobot_create_msgs/msg/IrIntensityVector]
+/cmd_audio [irobot_create_msgs/msg/AudioNoteVector]
+/cmd_lightring [irobot_create_msgs/msg/LightringLeds]
+/cmd_vel [geometry_msgs/msg/Twist]
+/dock_status [irobot_create_msgs/msg/DockStatus]
+/hazard_detection [irobot_create_msgs/msg/HazardDetectionVector]
+/imu [sensor_msgs/msg/Imu]
+/interface_buttons [irobot_create_msgs/msg/InterfaceButtons]
+/ir_intensity [irobot_create_msgs/msg/IrIntensityVector]
+/ir_opcode [irobot_create_msgs/msg/IrOpcode]
+/kidnap_status [irobot_create_msgs/msg/KidnapStatus]
+/mouse [irobot_create_msgs/msg/Mouse]
+/odom [nav_msgs/msg/Odometry]
+/parameter_events [rcl_interfaces/msg/ParameterEvent]
+/rosout [rcl_interfaces/msg/Log]
+/slip_status [irobot_create_msgs/msg/SlipStatus]
+/stop_status [irobot_create_msgs/msg/StopStatus]
+/tf [tf2_msgs/msg/TFMessage]
+/tf_static [tf2_msgs/msg/TFMessage]
+/wheel_status [irobot_create_msgs/msg/WheelStatus]
+/wheel_ticks [irobot_create_msgs/msg/WheelTicks]
+/wheel_vels [irobot_create_msgs/msg/WheelVels]
+Note that the Create® 3 robot will produce data on most of these topics. On the other hand, some of them can be used by the user to send commands to the Create® 3 robot. In particular, the Create® 3 robot will subscribe to the following topics:
+
+/cmd_audio: use this topic to play specified notes from the robot speaker.
+/cmd_lightring: use this topic to change the color of the light ring.
+/cmd_vel: use this topic to command velocities in the robot reference frame.
+For more details on the content of these topics, please have a look at their corresponding sections.
+
+Hazards
+Odometry
+User Interface
+If you have trouble seeing the topics using ros2 topic list, ensure that the robot's RMW_IMPLEMENTATION matches the one on your machine; see Network Configuration for more information about ROS middleware (RMW). Additionally, the command line ros2 topic utility could use stale cached discovery information; try running it with additional arguments ros2 topic list --no-daemon --spin-time 10 to not use the cached information.
+
+ROS 2 Services
+You can see the ROS 2 servers exposed by the Create® 3 robot running the ros2 service list command.
+
+$ ros2 service list -t
+/e_stop [irobot_create_msgs/srv/EStop]
+/motion_control/describe_parameters [rcl_interfaces/srv/DescribeParameters]
+/motion_control/get_parameter_types [rcl_interfaces/srv/GetParameterTypes]
+/motion_control/get_parameters [rcl_interfaces/srv/GetParameters]
+/motion_control/list_parameters [rcl_interfaces/srv/ListParameters]
+/motion_control/set_parameters [rcl_interfaces/srv/SetParameters]
+/motion_control/set_parameters_atomically [rcl_interfaces/srv/SetParametersAtomically]
+/robot_power [irobot_create_msgs/srv/RobotPower]
+/robot_state/change_state [lifecycle_msgs/srv/ChangeState]
+/robot_state/get_available_states [lifecycle_msgs/srv/GetAvailableStates]
+/robot_state/get_available_transitions [lifecycle_msgs/srv/GetAvailableTransitions]
+/robot_state/get_state [lifecycle_msgs/srv/GetState]
+/robot_state/get_transition_graph [lifecycle_msgs/srv/GetAvailableTransitions]
+/static_transform/change_state [lifecycle_msgs/srv/ChangeState]
+/static_transform/describe_parameters [rcl_interfaces/srv/DescribeParameters]
+/static_transform/get_available_states [lifecycle_msgs/srv/GetAvailableStates]
+/static_transform/get_available_transitions [lifecycle_msgs/srv/GetAvailableTransitions]
+/static_transform/get_parameter_types [rcl_interfaces/srv/GetParameterTypes]
+/static_transform/get_parameters [rcl_interfaces/srv/GetParameters]
+/static_transform/get_state [lifecycle_msgs/srv/GetState]
+/static_transform/get_transition_graph [lifecycle_msgs/srv/GetAvailableTransitions]
+/static_transform/list_parameters [rcl_interfaces/srv/ListParameters]
+/static_transform/set_parameters [rcl_interfaces/srv/SetParameters]
+/static_transform/set_parameters_atomically [rcl_interfaces/srv/SetParametersAtomically]
+ROS 2 Actions
+You can see the ROS 2 action servers exposed by the Create® 3 robot running the ros2 action list command.
+
+$ ros2 action list -t
+/audio_note_sequence [irobot_create_msgs/action/AudioNoteSequence]
+/dock [irobot_create_msgs/action/Dock]
+/drive_arc [irobot_create_msgs/action/DriveArc]
+/drive_distance [irobot_create_msgs/action/DriveDistance]
+/led_animation [irobot_create_msgs/action/LedAnimation]
+/navigate_to_position [irobot_create_msgs/action/NavigateToPosition]
+/rotate_angle [irobot_create_msgs/action/RotateAngle]
+/undock [irobot_create_msgs/action/Undock]
+/wall_follow [irobot_create_msgs/action/WallFollow]
+For more details on how to use these actions, please have a look at their corresponding sections.
+
+Docking
+Drive Goals
+ROS 2 Parameters
+You can see the ROS 2 parameters exposed by the Create® 3 robot running the ros2 param list command.
+
+$ ros2 param list
+/motion_control:
+  max_speed
+  min_speed
+  qos_overrides./parameter_events.publisher.depth
+  qos_overrides./parameter_events.publisher.durability
+  qos_overrides./parameter_events.publisher.history
+  qos_overrides./parameter_events.publisher.reliability
+  reflexes.REFLEX_BUMP
+  reflexes.REFLEX_CLIFF
+  reflexes.REFLEX_DOCK_AVOID
+  reflexes.REFLEX_GYRO_CAL
+  reflexes.REFLEX_PANIC
+  reflexes.REFLEX_PROXIMITY_SLOWDOWN
+  reflexes.REFLEX_STUCK
+  reflexes.REFLEX_VIRTUAL_WALL
+  reflexes.REFLEX_WHEEL_DROP
+  reflexes_enabled
+  safety_override
+  use_sim_time
+  wheel_accel_limit
+/robot_state:
+  publish_odom_tfs
+  qos_overrides./tf.publisher.depth
+  qos_overrides./tf.publisher.durability
+  qos_overrides./tf.publisher.history
+  qos_overrides./tf.publisher.reliability
+  use_sim_time
+/static_transform:
+  qos_overrides./tf_static.publisher.depth
+  qos_overrides./tf_static.publisher.history
+  qos_overrides./tf_static.publisher.reliability
+  use_sim_time
+  wheel_base
+  wheels_encoder_resolution
+  wheels_radius
+/system_health:
+  log_period
+  qos_overrides./parameter_events.publisher.depth
+  qos_overrides./parameter_events.publisher.durability
+  qos_overrides./parameter_events.publisher.history
+  qos_overrides./parameter_events.publisher.reliability
+  use_sim_time
+/ui_mgr:
+  lightring_led_brightness
+  qos_overrides./parameter_events.publisher.depth
+  qos_overrides./parameter_events.publisher.durability
+  qos_overrides./parameter_events.publisher.history
+  qos_overrides./parameter_events.publisher.reliability
+  use_sim_time
+Morphology parameters such as wheel_base and wheels_encoder_resolution are read-only parameters that can be used in order to implement your estimation or motion control algorithms.
+The safety_override parameter allows user to enable/disable safety features (default: none). For more details, please have a look at the safety documentation.
+The publish_odom_tfs parameter allows the user to enable transformations from odom (boolean, default: true). This parameter cannot be set at runtime; it must be configured from the ROS 2 parameters file on the application configuration page of the webserver, as it is loaded only at application start.
+The wheel_accel_limit parameter sets acceleration limits in units of mm·s-2 (int between 1 and 900 inclusive, default: 900).
+The lightring_led_brightness parameter allows user to increase/decrease the brightness of the light ring (int between 10 - 100 inclusive, default: 15).
+For more details on how to use and configure reflexes, please have a look at the reflexes documentation.
+
+ROS 2 Coordinate System
+The Create® 3 robot produces a fused odometry that combines its wheel encoders, IMU, and ground optical flow sensor. The robot's coordinate system is right-handed, with x forward, y left, and z up. It exposes this coordinate system both through the tf tree and the /odom publication. The /tf tree from the robot exposes ROS 2 standard transforms odom->base_footprint and odom->base_link with corresponding definitions odom, base_footprint, and base_link. base_link is defined to be at the center of rotation of the robot with z height intersecting the floor. base_footprint is the 2D planar representation base_link with the pitch and roll factors removed from the transform, this can be useful for applications like 2D planar mapping. The /odom publication contains the same position and orientation as base_link in the form of a nav_msgs/msg/Odometry message with velocity additionally populated. Note: the /odom -> /base_footprint and /odom -> base_link transformations can be disabled by setting the publish_odom_tfs parameter to false. The publish_odom_tfs parameter cannot be set at runtime; it must be configured from the ROS 2 parameters file on the application configuration page of the webserver, as it is loaded only at application start.
+
+$ ros2 topic echo /tf
+transforms:
+- header:
+    stamp:
+      sec: 1646697192
+      nanosec: 702756640
+    frame_id: odom
+  child_frame_id: base_footprint
+  transform:
+    translation:
+      x: -0.00043813258525915444
+      y: -3.853919679386308e-06
+      z: 0.0
+    rotation:
+      x: 0.0
+      y: 0.0
+      z: 2.5629995434428565e-05
+      w: 1.0
+- header:
+    stamp:
+      sec: 1646697192
+      nanosec: 702756640
+    frame_id: odom
+  child_frame_id: base_link
+  transform:
+    translation:
+      x: -0.00043813258525915444
+      y: -3.853919679386308e-06
+      z: 0.0
+    rotation:
+      x: -0.0016827837098389864
+      y: -0.009617267176508904
+      z: 9.441922884434462e-06
+      w: 0.9999523162841797
