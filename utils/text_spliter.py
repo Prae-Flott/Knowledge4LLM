@@ -1,5 +1,4 @@
 
-
 def parse_file(filename):
     """
     Open a text file, split it into paragraphs based on empty lines,

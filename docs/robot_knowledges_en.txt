@@ -1,0 +1,92 @@
+Components:
+
+One of the most critical components identified is the docking station (agreed by 80% of experts), as failures in docking can directly affect the robot’s ability to recharge and continue operation.
+
+One of the most critical components identified is the camera sensor (agreed by 40% of experts), since visual perception is essential for navigation and environmental awareness.
+
+One of the most critical components identified is the wheel system (agreed by 100% of experts), as any malfunction here directly impairs the robot’s ability to move.
+
+One of the most critical components identified is the odometry sensor (agreed by 40% of experts), which is vital for estimating position and ensuring accurate movement.
+
+One of the most critical components identified is the IR sensor (agreed by 60% of experts), as it plays an important role in obstacle detection and short-range navigation.
+
+One of the most critical components identified is the motor (agreed by 40% of experts), because it powers the movement and any failure can immobilize the robot entirely.
+
+Failures modes:
+
+One of the five most commonly mentioned critical failures is camera contamination (agreed by 80% of experts), in which the camera becomes covered with dust, oil, or other substances after extended use and no longer functions properly.
+
+One of the five most commonly mentioned critical failures is IR sensor contamination (agreed by 80% of experts), in which the infrared sensors are covered with dust, oil, or similar substances after extended use and exhibit abnormal behavior.
+
+One of the five most commonly mentioned critical failures is wheel blockage (agreed by 80% of experts), in which the wheel or gearbox becomes obstructed by an object in the environment during operation, preventing normal movement.
+
+One of the five most commonly mentioned critical failures is robot blockage (agreed by 40% of experts), in which the robot becomes stuck at a location and is unable to move independently.
+
+One of the five most commonly mentioned critical failures is charging failure (agreed by 40% of experts), in which the robot is unable to recharge at the docking station due to issues such as battery problems, contact failures, or station malfunctions.
+
+Occurrence:
+
+According to expert opinion, the frequency of failure camera contamination is moderate, i.e., it occurs approximately once every 10 to 100 operating hours.
+
+According to expert opinion, the frequency of failure IR sensor contamination is moderate, i.e., it occurs approximately once every 10 to 100 operating hours.
+
+According to expert opinion, the frequency of failure wheel blockage is high/low, i.e., it occurs approximately once every 1 to 10 operating hours or once every 100 to 10,000 operating hours, depending on the operational context.
+
+According to expert opinion, the frequency of failure robot blockage is high, i.e., it occurs approximately once every 1 to 10 operating hours.
+
+According to expert opinion, the frequency of failure charging failure is low, i.e., it occurs approximately once every 100 to 10,000 operating hours.
+
+Severity:
+
+According to expert opinion, the severity of failure camera contamination is moderate, i.e., in the case of a severe risk failure in the robot system, partial system failure or malfunctions may occur, which could hinder the achievement of the intended purpose.
+
+According to expert opinion, the severity of failure IR sensor contamination is high, i.e., a serious failure in the robot system could lead to system outages, injuries, and financial losses.
+
+According to expert opinion, the severity of failure wheel blockage is high, i.e., a serious failure in the robot system could lead to system outages, injuries, and financial losses.
+
+According to expert opinion, the severity of failure robot blockage is low, i.e., in the case of a minor risk failure, the robot system experiences partial downtime, resulting in harmless consequences but a decline in robot performance.
+
+According to expert opinion, the severity of failure charging failure is high/low, i.e., a serious failure in the robot system could lead to system outages, injuries, and financial losses or, in a less severe case, result in partial downtime and a decline in robot performance.
+
+Detectability:
+
+According to expert opinion, the detectability of failure camera contamination is moderate, i.e., there is a moderate probability of detecting the failure through established detection methods from comparable products under new operating or boundary conditions.
+
+According to expert opinion, the detectability of failure IR sensor contamination is moderate, i.e., there is a moderate probability of detecting the failure through established detection methods from comparable products under new operating or boundary conditions.
+
+According to expert opinion, the detectability of failure wheel blockage is high, i.e., there is a high probability of detecting the failure through proven detection methods, and the effectiveness of the detection measure has been demonstrated for this product.
+
+According to expert opinion, the detectability of failure robot blockage is very high, i.e., there is a very high probability of detecting the failure through well-established detection methods for previous generations. The effectiveness of the detection measure has been proven for this product.
+
+According to expert opinion, the detectability of failure charging failure is high/moderate, i.e., there is a high probability of detecting the failure through proven detection methods, or a moderate probability with established detection methods from comparable products under new operating or boundary conditions.
+
+The failure mode camera contamination is primarily caused by factors such as the absence or ineffective sealing of the camera housing, dust, oil, and other aggressive substances, as well as dust being stirred up by the robot and settling on surfaces. This contamination can lead to various component-level effects, including degraded camera function, poor light intake, blurred images, lens surface wear or damage, and the need for cleaning, which could risk further damage due to scratches during cleaning. At the system level, this failure impacts the robot's computer vision capabilities, causing incorrect classification, poor navigation, and loss of spatial orientation, ultimately rendering object recognition nonfunctional. For the overall multi-robot system, the consequences are even more severe, affecting path planning, increasing the risk of collisions, reducing the system’s overall performance, and elevating the failure rate across the fleet, leading to more frequent collisions.
+
+The failure mode IR sensor contamination is caused by poor sealing of the sensor housing, dust, oil, and other aggressive substances, as well as dust stirred up by the robot and accumulated dirt on sensors close to the ground. This contamination can result in poor sensor performance, the need for cleaning (which may cause damage during the process), interference from dust during detection, and scratched sensor surfaces due to dust. At the system level, it affects the robot's distance measurements, obstacle avoidance, and overall perception, leading to incorrect assessments of the environment. For the overall multi-robot system, this failure results in reduced performance, increased failure rates across the fleet, and a higher frequency of collisions.
+
+The failure mode wheel blockage is caused by several factors, including excessive play between the wheel and housing, gearbox or motor wear or damage, wheel dirt or wear, mechanical component breakage, dirt accumulation from the floor, small objects like screws or nails entering the wheel, debris or lint colliding with obstacles, and cables or fibers wrapping around the wheel. This can lead to component-level effects such as mechanical damage, excessive current that overloads the electronics, high torque stress on the motor and gearbox, increasing wear on these components, and potential damage to the wheel or axle if the issue persists. At the robot system level, the failure can make movement difficult or impossible, cause the robot to veer off course, lead to unpredictable total failure, and result in both electrical and, in the worst case, mechanical damage. This failure severely impacts the multi-robot system, causing reduced performance, blocking important paths or routes, necessitating external intervention, and preventing tasks from being completed.
+
+The failure mode robot blockage can occur due to factors such as insufficient or incorrect sensing, unforeseen object placement or uneven terrain, the robot maneuvering in circles, driving over small objects, navigation errors (e.g., two robots attempting to reach the same spot), and chassis or housing component failures. This leads to component-level effects like mechanical damage, potential housing damage, motor overloading or stalling, detachment of critical parts, or, in some cases, no damage but an inability to achieve its goal independently. At the robot system level, the failure makes movement difficult or impossible, prevents the robot from completing its task, and reduces its lifespan due to collisions and wear. On the multi-robot system level, the failure prevents the completion of its goal, and if multiple robots are blocked, the entire task cannot be completed.
+
+
+The failure mode charging failure is caused by several factors, including incorrect positioning or alignment during docking due to sensor errors, a defective charging station contact, a malfunctioning robot contact, robot failure, corrosion of contacts, and aging of the battery or electronics. This failure can lead to component-level issues such as potential battery damage, deep discharge if not addressed, and eventual battery failure. At the robot system level, the failure results in abnormal behaviors such as erratic movement, unexpected restarts, camera failure, collisions, and eventual robot shutdown. In the multi-robot system, charging failure can increase task completion time or make the goal unachievable, cause the charging station to be inoperable, and block other robots from charging if they are obstructed by the failed robot. As more robots are blocked, the overall task cannot be completed.
+
+Data: 
+
+The failure mode camera contamination is monitored using the ROS2 topic /camera_image, which provides image data to detect contamination effects.
+
+The failure mode IR sensor contamination is tracked through the ROS2 topics /ir_intensity, /ir_opcode, /cliff_intensity, and /hazard_detection, which monitor infrared sensor performance and related hazard detection.
+
+The failure mode wheel blockage is detected via the ROS2 topics /wheel_status, /wheel_ticks, /slip_status, /odom, /mouse, and /imu, which track wheel and movement status, odometry, and slip conditions.
+
+The failure mode robot blockage is identified through the ROS2 topics /wheel_status, /stop_status, /mouse, /cliff_intensity, /hazard_detection, /slip_status, and /kidnap_status, which monitor the robot's motion, stops, and hazard detection.
+
+The failure mode charging failure is observed using the ROS2 topics /battery_state and /dock_status, which monitor battery status and docking conditions.
+
+
+
+
+
+
+
+

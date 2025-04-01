@@ -49,10 +49,10 @@ def plot_time_series(df, datetime_col, value_col, output_dir, file_name_no_ext):
     
     return plot_filename
 
-def process_excel_file(file_path, output_dir='./docs', value_col=None):
+def load_data(file_path, output_dir='./docs', value_col=None):
     """
     Load a specific Excel file, extract time series features,
-    and save them as a text file in the output directory.
+    save them as a text file, and return the last description.
     
     Parameters:
     -----------
@@ -62,6 +62,11 @@ def process_excel_file(file_path, output_dir='./docs', value_col=None):
         Directory to save text files
     value_col : str, optional
         Name of the column containing values to analyze. If None, will use the second column.
+        
+    Returns:
+    --------
+    str or None:
+        The last description if successful, None otherwise
     """
     # Ensure output directory exists
     os.makedirs(output_dir, exist_ok=True)
@@ -70,7 +75,7 @@ def process_excel_file(file_path, output_dir='./docs', value_col=None):
         # Get the filename without extension
         file_name = os.path.basename(file_path)
         file_name_no_ext = os.path.splitext(file_name)[0]
-        output_file = os.path.join(output_dir, f"{file_name_no_ext}.txt")
+        output_file = os.path.join(output_dir, f"{file_name_no_ext}_{value_col}.txt")
         
         print(f"Processing {file_name}...")
         
@@ -85,7 +90,7 @@ def process_excel_file(file_path, output_dir='./docs', value_col=None):
             value_col = df.columns[1]  # Default to second column
         elif value_col not in df.columns:
             print(f"  Error: Specified column '{value_col}' not found in the data")
-            return False
+            return None
         
         print(f"  Identified columns: datetime={datetime_col}, value={value_col}")
         print(f"  Data shape: {df.shape}")
@@ -97,7 +102,7 @@ def process_excel_file(file_path, output_dir='./docs', value_col=None):
                 print(f"  Converted {datetime_col} to datetime format")
             except Exception as e:
                 print(f"  Error converting {datetime_col} to datetime: {e}")
-                return False
+                return None
         
         # Plot the time series data
         plot_time_series(df, datetime_col, value_col, output_dir, file_name_no_ext)
@@ -113,75 +118,97 @@ def process_excel_file(file_path, output_dir='./docs', value_col=None):
         
         print(f"  Extracted {len(features_df)} feature windows")
         
+        # Get the last description
+        if not features_df.empty:
+            last_description = features_df.iloc[-1]['description']
+        else:
+            last_description = f"No features were extracted from {file_name}"
+        
         # Save features as text
         save_features_as_text(features_df, output_file)
-        
         print(f"  Saved features to {output_file}")
-        return True
+        
+        return last_description
         
     except Exception as e:
         print(f"Error processing {file_path}: {e}")
-        return False
+        return None
 
-def process_multiple_files(file_paths, output_dir='./docs', value_cols=None):
+def read_latest_description(file_name, docs_dir='./labeled_data'):
     """
-    Process multiple Excel files and convert them to text files.
+    Read the latest description from a saved text file for a given value column.
     
     Parameters:
     -----------
-    file_paths : list
-        List of file paths to Excel files
-    output_dir : str
-        Directory to save text files
-    value_cols : dict, optional
-        Dictionary mapping file paths to value column names
-        Example: {'./labeled_data/battery_status.xlsx': 'battery_percent'}
-    """
-    success_count = 0
-    fail_count = 0
-    
-    # Initialize value_cols if None
-    if value_cols is None:
-        value_cols = {}
-    
-    for file_path in file_paths:
-        # Get the specific value column for this file if specified
-        value_col = value_cols.get(file_path)
+    file_name_no_ext : str
+        Filename without extension (e.g., 'battery_status')
+    value_col : str
+        Name of the value column (e.g., 'battery_percent')
+    docs_dir : str
+        Directory where the text files are saved
         
-        if process_excel_file(file_path, output_dir, value_col):
-            success_count += 1
+    Returns:
+    --------
+    str or None:
+        The latest description (last paragraph) from the file if found, None otherwise
+    """
+    try:
+        # Construct the expected file path
+        file_path = os.path.join(docs_dir, f"{file_name}.txt")
+        
+        # Check if the file exists
+        if not os.path.exists(file_path):
+            print(f"File not found: {file_path}")
+            return None
+        
+        # Read the file content
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # Split into paragraphs (descriptions)
+        paragraphs = [p.strip() for p in content.split('\n\n') if p.strip()]
+        
+        # Return the last paragraph if available
+        if paragraphs:
+            return paragraphs[-1]
         else:
-            fail_count += 1
+            print(f"No descriptions found in {file_path}")
+            return None
     
-    print(f"Processing complete! Successfully processed {success_count} files.")
-    if fail_count > 0:
-        print(f"Failed to process {fail_count} files.")
+    except Exception as e:
+        print(f"Error reading latest description: {e}")
+        return None
 
 def main():
-    """Main function to run the data loader"""
-    # Define output directory
-    output_dir = './docs'
+    """
+    Demo function to test the data loader with a single file.
+    """
+    # Define output directory and file path
+    output_dir = './labeled_data'
+    file_path = './labeled_data/experiment0808.xlsx'
+    value_col = 'Percentage %'  # Optional, set to None to use default
     
-    # List of specific files to process
-    file_paths = [
-        './labeled_data/battery_status.xlsx',
-        './labeled_data/cpu_usage.xlsx',
-        './labeled_data/network_traffic.xlsx'
-        # Add more file paths as needed
-    ]
+    # Process the file and get the last description
+    last_description = load_data(file_path, output_dir, value_col)
     
-    # Optional: Specify value columns for specific files
-    value_cols = {
-        './labeled_data/battery_status.xlsx': 'battery_percent',
-        './labeled_data/cpu_usage.xlsx': 'cpu_usage',
-        # Only specify when you need to override the default behavior
-    }
-    
-    # Process the files with specific value columns
-    process_multiple_files(file_paths, output_dir, value_cols)
-    
-    # Alternatively, process a single file directly with a specific value column
-    # process_excel_file('./labeled_data/battery_status.xlsx', output_dir, 'battery_percent')
+    if last_description:
+        print("\nLast description:")
+        print("-" * 80)
+        print(last_description)
+        print("-" * 80)
+        
+        # # Demonstrate how to read the latest description from the saved file
+        # file_name_no_ext = os.path.splitext(os.path.basename(file_path))[0]
+        # read_description = read_latest_description(file_name_no_ext, value_col, output_dir)
+        
+        # print("\nReading latest description from saved file:")
+        # print("-" * 80)
+        # print(read_description)
+        # print("-" * 80)
+        
+        # print("Processing complete!")
+    else:
+        print("Processing failed.")
 
 if __name__ == "__main__":
     main()

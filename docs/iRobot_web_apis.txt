@@ -1,0 +1,218 @@
+Moving the Robot
+This page describes the various APIs available to move the Create® 3 robot via ROS 21.
+
+Important
+
+Supervise your robot while executing movements, to avoid risk of damaging it or its surroundings.
+
+Important
+
+It's recommended to not try to command robot motions if the robot is on its docking station. Either lift it and place it somewhere else or use the built-in undocking behavior.
+
+Velocity Control
+The velocity control API is the simplest way to move the Create® 3 robot. It's recommended for beginners and to simply try out the robot. Being the lowest-level motion API exposed by the robot, this is also recommended to the more advanced users who want to implement their own autonomous navigation applications.
+
+The robot is controlled by publishing geometry_msgs/msg/Twist messages to the /cmd_vel topic. For example, to move the robot straight forward using the ROS 2 command line:
+
+ros2 topic pub -r 20 /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 0.0}}"
+The robot will execute the last received message on the topic until a fixed timeout period has passed or a new message is received, at which point the timer is restarted and this process begins again. The purpose of the timeout is to provide an easy way to stop the robot, i.e. just stop sending messages rather than having to send an explicit "0", and to prevent the robot to keep moving if it has lost connectivity with the process controlling it (e.g. a script on the user's laptop).
+
+Note that these raw velocity commands have lower "priority" than the other request-based approaches to move the robot (described in the next sections). The request of a position control or autonomous behavior goal will block the execution of the cmd_vel messages, which will be ignored until the goal terminates. The corollary is that it's of no use to publish cmd_vel messages while those are running; you should rather first wait for the behavior to finish or actively cancel it.
+
+Position Control
+The position control APIs are suitable for users who want to implement simple high-level strategies, such as driving a specific pattern. Basic position control, based on the internal dead-reckoning estimate of the robot, is exposed to the user via ROS 2 action goals. See the drive goals documentation for details.
+
+Autonomous Behaviors
+The Create® 3 robot exposes some autonomous behaviors suitable for more specific situations. These behaviors are controlled using ROS 2 action goals.
+
+Docking and Undocking
+Obstacle Following
+
+
+
+
+
+
+Create® 3 Docking
+The Create® 3 robot is equipped with a docking station to recharge it between experiments.
+
+Through the ROS 21 APIs users can command docking and undocking autonomous behaviors.
+
+Warning
+
+Note that the docking action and sensor topic changed between Galactic and Humble.
+
+In order for the robot to detect the dock, determine its location, and understand when it is succesfully docked, it is necessary that the docking station is connected to a power source.
+
+Autonomous behaviors
+Undocking
+You can command the robot to undock using the following ROS 2 action.
+
+ros2 action send_goal /undock irobot_create_msgs/action/Undock "{}"
+The robot will move backward out of the dock and then it will rotate 180 degrees.
+
+This action will fail if the robot is already undocked.
+
+Docking
+You can command the robot to dock using a ROS 2 action.
+
+Galactic
+ros2 action send_goal /dock irobot_create_msgs/action/DockServo "{}"
+Humble
+ros2 action send_goal /dock irobot_create_msgs/action/Dock "{}"
+The robot will first search for the dock in its immediate surroundings. Note that the action will fail if the robot is too far from the dock. You can check if the dock is visible by subscribing to the (in Galactic) /dock (or in Humble) /dock_status ROS 2 topic.
+
+Then the robot will align with the dock and carefully drive onto it.
+
+This action will fail if the robot is already docked.
+
+Docking sensor data
+The Create® 3 robot exposes several docking-related information through its ROS 2 publications. These should allow users to write their own algorithms taking into account the presence of the dock in the environment and even to write their own docking and undocking procedures.
+
+IR opcodes
+The Create® 3 docking station transmit several IR signals. The Create® 3 robot is equipped with two different sensors that are capable of detecting them.
+
+Docking signals
+
+The robot will publish these signals in the /ir_opcode ROS 2 topic. Each message will contain a time-stamped detection of one of those signals, including the identifier of the sensor that detected it.
+
+Dock information
+In Galactic, more high-level information is produced by the robot in the /dock ROS 2 topic. In Humble and beyond, the topic has been renamed to /dock_status. Here it's possible to quickly know if the robot is able to see the dock from its current location and whether it is currently docked or not.
+
+
+
+
+
+
+
+Create® 3 Drive Goals
+The Create® 3 robot exposes some actions for simple driving goals that close the loop on odometry position.
+
+Through the ROS 21 APIs users can command:
+
+Driving along a specified arc
+
+Driving in a straight line for a fixed distance
+
+Navigating to a specified odometry position and orientation
+
+Rotating a fixed angle
+
+A cliff event or a wheel stall will trigger a goal to cancel, otherwise it will run until the robot achieves the odometry goal or it's canceled by the user. If there is something blocking the robot's path, the user must intervene to stop the robot, otherwise it will continue to bump until odometry slip achieves the goal position.
+
+Built-in Drive Goals behaviors
+Drive Arc
+You can command the robot to drive a fixed angle along an arc defined by radius:
+
+ros2 action send_goal /drive_arc irobot_create_msgs/action/DriveArc "{angle: 1.57,radius: 0.3,translate_direction: 1,max_translation_speed: 0.3}"
+The robot will drive forward or backward given the translate direction along an arc defined by radius until it achieves the specified relative heading.
+
+Drive Distance
+You can command the robot to drive a fixed distance in a straight line:
+
+ros2 action send_goal /drive_distance irobot_create_msgs/action/DriveDistance "{distance: 0.5,max_translation_speed: 0.15}"
+The robot will drive straight until it has traveled the specified distance in odometry frame. It will drive backwards if distance is negative (be aware of the backup limit).
+
+Navigate To Position
+You can command the robot to drive to the specified odometry position:
+
+ros2 action send_goal /navigate_to_position irobot_create_msgs/action/NavigateToPosition "{achieve_goal_heading: true,goal_pose:{pose:{position:{x: 1,y: 0.2,z: 0.0}, orientation:{x: 0.0,y: 0.0, z: 0.0, w: 1.0}}}}"
+The robot will take a rotate -> translate -> rotate approach to achieve the goal position. First rotating from its current heading to face the goal position, then driving straight to the goal position, then optionally rotating to achieve the goal heading.
+
+Rotate Angle
+You can command the robot to rotate a relative angle from current robot heading:
+
+ros2 action send_goal /rotate_angle irobot_create_msgs/action/RotateAngle "{angle: 1.57,max_rotation_speed: 0.5}"
+The robot will rotate either clockwise (negative angle) or counter clockwise (positive angle) until it has achieved the angle offset.
+
+
+
+
+
+
+
+
+Hazards Detection
+The Create® 3 robot is equipped with a variety of sensors that are capable to detect hazards in the environment.
+
+In particular you will find:
+
+Bumper sensor to detect front contacts.
+Cliff sensors to detect holes and steps.
+Wheel drop sensors to detect if a wheel is not touching the ground.
+The hazard_detection topic
+The Create® 3 robot will periodically publish on the hazard_detection ROS 21 topic a vector of all the currently detected hazards. If the vector is empty, this means that no hazards are currently being detected.
+
+Each element of the vector will denote a different hazard detection. Look at the HazardDetection.msg definition in order to see how to differentiate different types of hazards. The header field of each indivdual detection will provide all the information required to localize it. In particular the timestamp will denote when the robot detected the hazard and the frame id will denote the location of the sensor that performed the detection.
+
+Important
+
+The hazard_detection topic will also contain a BACKUP_LIMIT hazard if the robot safety features are preventing it from safely moving further backwards. Look at the safety documentation for details and how to disable it.
+
+Example
+The kidnap_status topic
+By "kidnap" we denote the action of manually lifting the robot and, eventually, placing it back in a location which may be different from the original one.
+
+The Create® 3 robot combines together different sensors data in order to determine when it's being kidnapped. A boolean status will be periodically published on the kidnap_status topic.
+
+Example
+The ir_intensity topic
+7 sets of IR emitters and receivers are available in the front bumper to detect objects at close range.
+
+The Create® 3 robot will periodically publish on the ir_intensity topic the raw intensity readings obtained from these sensors. The message will be a vector where each element corresponds to a different sensor. The higher the intensity value is, the closer an obstacle is to the robot. The header field of each indivdual detection will provide all the information required to localize it. In particular the timestamp will denote when the robot detected the hazard and the frame id will denote the location of the sensor that performed the detection.
+
+Example
+The cliff_intensity topic
+4 sets of IR emitters and receivers are available in on the bottom of the robot just behind its front bumper to detect presence or absence of the floor.
+
+The Create® 3 robot will periodically publish on the cliff_intensity topic the raw intensity readings obtained from these sensors. The message will be a vector where each element corresponds to a different sensor. The higher the intensity value is, the more intensely the floor is perceived. The header field of each indivdual detection will provide all the information required to localize it. In particular the timestamp will denote the time of the reading and the frame id will denote the location of the sensor that performed the detection.
+
+Example
+
+
+
+
+
+
+Odometry Estimation
+The Create® 3 robot is equipped with a variety of sensors that are used to detect its motions. In particular you will find:
+
+IMU
+Optical mouse
+Wheel encoders
+Many details about these messages can be found in the message definitions themselves, which are linked below.
+
+Raw sensor topics
+If you want to implement your own algorithms using the raw sensor readings, you can read them from the following topics:
+
+The imu topic
+The imu topic produces messages of type sensor_msgs/msg/Imu. As of G.4 / H.1, this topic publishes at 100 Hz. Prior to these releases, this topic published at 62.5 Hz.
+
+The mouse topic
+The mouse topic produces messages of type irobot_create_msgs/msg/Mouse. This topic publishes at 62.5 Hz.
+
+The wheel_status topic
+The wheel_status topic produces messages of type irobot_create_msgs/msg/WheelStatus. This topic publishes at 62.5 Hz.
+
+The wheel_ticks topic
+The wheel_ticks topic produces messages of type irobot_create_msgs/msg/WheelTicks. This topic publishes at 62.5 Hz. There are 508.8 ticks per wheel rotation.
+
+The wheel_vels topic
+The wheel_status topic produces messages of type irobot_create_msgs/msg/WheelStatus. This topic publishes at 62.5 Hz.
+
+Fused Sensor topics
+The following topics are computed on-board the Create 3 robot using its raw sensor data.
+
+The odom topic
+The odom topic produces messages of type nav_msgs/msg/Odometry. The Create® 3 robot fuses the reading from its various sensors in order to produce a dead reckoning estimate of its pose on the odom topic. This topic publishes at 20 Hz.
+
+The slip_status topic
+The slip_status topic produces messages of type irobot_create_msgs/msg/SlipStatus. We denote by "slippage" a loss of efficiency in the wheels. This is usually caused by losing traction between the wheels and the ground with the results that the motion detected by the wheels encoders is greater than what the robot actually performed.
+
+We fuse together various sensors in order to compute a boolean estimate of whether the robot is slipping or not and we periodically publish it on the slip_status topic. If you are developing your own state estimation algorithm using the wheels encoders, then it is recommended to inflate the differential motion covariance matrix to take this problem into account.
+
+Note that the optical mouse sensor is not affected by slippage. This topic publishes at 20 Hz.
+
+The stop_status topic
+The stop_status topic produces messages of type irobot_create_msgs/msg/StopStatus. The Create® 3 robot will periodically publish a boolean estimate of whether it is currently moving or not on the stop_status topic. This topic publishes at 1 Hz.
+
