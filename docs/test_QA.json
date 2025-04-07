@@ -1,0 +1,247 @@
+[
+    {
+      "question": "Which component is considered most critical for a robot's ability to move?",
+      "answer": "The wheel system."
+    },
+    {
+      "question": "Which component plays a vital role in estimating the robot’s position?",
+      "answer": "The odometry sensor."
+    },
+    {
+      "question": "What is the frequency of failure for wheel blockage?",
+      "answer": "Varies: once every 1-10 hours or 100-10,000 hours."
+    },
+    {
+      "question": "How do experts categorize the severity of charging failure?",
+      "answer": "High or low severity."
+    },
+    {
+      "question": "What is the most common critical failure related to the camera sensor?",
+      "answer": "Camera contamination."
+    },
+    {
+      "question": "What ROS2 topic monitors wheel status?",
+      "answer": "/wheel_status."
+    },
+    {
+      "question": "Which failure mode has the highest detectability?",
+      "answer": "Robot blockage."
+    },
+    {
+      "question": "What causes IR sensor contamination?",
+      "answer": "Poor sealing, dust, oil."
+    },
+    {
+      "question": "What is the frequency of robot blockage failure?",
+      "answer": "High: once every 1-10 hours."
+    },
+    {
+      "question": "Which failure mode is caused by excessive play between the wheel and housing?",
+      "answer": "Wheel blockage."
+    },
+    {
+      "question": "What is the severity of the failure caused by robot blockage?",
+      "answer": "Low severity."
+    },
+    {
+      "question": "What is the main cause of camera contamination?",
+      "answer": "Dust, oil, ineffective sealing."
+    },
+    {
+      "question": "Which component failure could lead to partial system failure or malfunctions?",
+      "answer": "Camera contamination."
+    },
+    {
+      "question": "What ROS2 topic monitors the robot's battery status?",
+      "answer": "/battery_state."
+    },
+    {
+      "question": "How is the detectability of charging failure described?",
+      "answer": "High or moderate."
+    },
+    {
+      "question": "Which failure mode is primarily caused by poor sealing and dust accumulation on sensors?",
+      "answer": "IR sensor contamination."
+    },
+    {
+      "question": "What can happen to the multi-robot system if a camera contamination failure occurs?",
+      "answer": "Increased collision risk, reduced performance."
+    },
+    {
+      "question": "What ROS2 topic monitors the charging station’s status?",
+      "answer": "/dock_status."
+    },
+    {
+      "question": "What failure mode is caused by dirt accumulation or small objects like screws blocking the wheel?",
+      "answer": "Wheel blockage."
+    },
+    {
+      "question": "What is the primary consequence of camera contamination in a multi-robot system?",
+      "answer": "Increased failure rates, collisions."
+    },
+    {
+      "question": "What ROS2 topic tracks movement and odometry data related to wheel blockage?",
+      "answer": "/wheel_ticks, /odom, /imu."
+    },
+    {
+      "question": "What is the severity of robot blockage in a multi-robot system?",
+      "answer": "Low severity, task completion blocked."
+    },
+    {
+      "question": "What component failure can cause partial system malfunctions in the robot?",
+      "answer": "Camera contamination."
+    },
+    {
+      "question": "Which ROS2 topic tracks the robot’s stop status during robot blockage?",
+      "answer": "/stop_status."
+    },
+    {
+      "question": "How is camera contamination failure monitored?",
+      "answer": "/camera_image."
+    },
+    {
+      "question": "What is the impact of robot blockage on the overall task completion?",
+      "answer": "Prevents task completion."
+    },
+    {
+      "question": "How does a wheel blockage affect the robot’s motor?",
+      "answer": "Causes excess stress, wear."
+    },
+    {
+      "question": "What failure mode could potentially damage the robot's battery if left unaddressed?",
+      "answer": "Charging failure."
+    },
+    {
+      "question": "What failure mode is monitored by the ROS2 topic /hazard_detection?",
+      "answer": "IR sensor contamination, robot blockage."
+    },
+    {
+      "question": "What failure mode has low severity but could cause minor downtime?",
+      "answer": "Robot blockage."
+    },
+    {
+      "question": "What is the frequency of camera contamination failure?",
+      "answer": "Once every 10-100 hours."
+    },
+    {
+      "question": "What is a potential result of wheel blockage on the robot’s motor?",
+      "answer": "Excessive torque, potential damage."
+    },
+    {
+      "question": "How is wheel blockage monitored in ROS2?",
+      "answer": "/wheel_status, /wheel_ticks, /imu."
+    },
+    {
+      "question": "What is the primary detection method for robot blockage?",
+      "answer": "Monitoring /wheel_status, /stop_status."
+    },
+    {
+      "question": "How can camera contamination affect the robot’s navigation capabilities?",
+      "answer": "Degrades vision, poor navigation."
+    },
+    {
+      "question": "What is the impact of charging failure on the robot system?",
+      "answer": "Erratic movement, potential shutdown."
+    },
+    {
+      "question": "What is the severity of wheel blockage at the system level?",
+      "answer": "High severity, impedes movement."
+    },
+    {
+      "question": "What ROS2 topic monitors wheel status during wheel blockage?",
+      "answer": "/wheel_status."
+    },
+    {
+      "question": "What is the primary cause of charging failure?",
+      "answer": "Incorrect docking, sensor or contact issues."
+    },
+    {
+      "question": "Which failure mode is monitored by the ROS2 topic /ir_intensity?",
+      "answer": "IR sensor contamination."
+    },
+    {
+      "question": "What causes robot blockage?",
+      "answer": "Improper sensing, uneven terrain."
+    },
+    {
+      "question": "What is the primary consequence of wheel blockage in the system?",
+      "answer": "Impaired movement, system failure."
+    },
+    {
+      "question": "What failure mode involves contamination affecting the sensor’s ability to detect obstacles?",
+      "answer": "IR sensor contamination."
+    },
+    {
+      "question": "Which failure mode is associated with high frequency of occurrence?",
+      "answer": "Robot blockage."
+    },
+    {
+      "question": "What is the primary cause of robot blockage?",
+      "answer": "Incorrect sensing, obstacles."
+    },
+    {
+      "question": "Which failure mode involves poor sensor performance from contamination?",
+      "answer": "IR sensor contamination."
+    },
+    {
+      "question": "What is the primary detection method for camera contamination?",
+      "answer": "Image data via /camera_image."
+    },
+    {
+      "question": "What ROS2 topic monitors the IR sensor data?",
+      "answer": "/ir_intensity."
+    },
+    {
+      "question": "What is the result of wheel blockage on the robot system?",
+      "answer": "Reduced mobility, external intervention needed."
+    },
+    {
+      "question": "How is robot blockage detected?",
+      "answer": "Via /stop_status, /hazard_detection."
+    },
+    {
+      "question": "What is the impact of robot blockage on robot tasks?",
+      "answer": "Prevents task completion."
+    },
+    {
+      "question": "Which ROS2 topic monitors robot status during blockage?",
+      "answer": "/kidnap_status."
+    },
+    {
+      "question": "What causes wheel blockage during operation?",
+      "answer": "Dirt, debris, mechanical failure."
+    },
+    {
+      "question": "What ROS2 topic tracks IR sensor health?",
+      "answer": "/ir_opcode."
+    },
+    {
+      "question": "What is a primary cause of wheel blockage?",
+      "answer": "Mechanical damage or debris."
+    },
+    {
+      "question": "What failure mode could cause a robot to become stuck?",
+      "answer": "Robot blockage."
+    },
+    {
+      "question": "What does a charging failure lead to?",
+      "answer": "Battery issues, erratic behavior."
+    },
+    {
+      "question": "What is the primary factor causing IR sensor failure?",
+      "answer": "Contamination from dust or oil."
+    },
+    {
+      "question": "How do you detect charging failure?",
+      "answer": "Via /battery_state, /dock_status."
+    },
+    {
+      "question": "Which failure mode causes abnormal behavior due to improper sensor sealing?",
+      "answer": "IR sensor contamination."
+    },
+    {
+      "question": "What failure mode is caused by the robot getting stuck?",
+      "answer": "Robot blockage."
+    }
+  ]
+  
