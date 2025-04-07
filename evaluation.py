@@ -14,7 +14,6 @@ from utils.evaluation_utils import (
     normalize_text,
     calculate_similarity,
     calculate_token_metrics,
-    is_correct_answer,
     save_results,
     print_metrics_summary
 )
