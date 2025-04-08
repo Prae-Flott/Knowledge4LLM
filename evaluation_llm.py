@@ -7,39 +7,35 @@ from datetime import datetime
 from typing import Dict, List, Any
 
 # Import project modules
-from utils.text_spliter import parse_file
 from data_loader import read_latest_description
 from utils.embedding_utils import get_knowledge_context
 from utils.evaluation_utils import (
     load_test_questions,
-    normalize_text,
-    calculate_similarity,
-    calculate_token_metrics,
-    save_results,
-    print_metrics_summary
+    save_results
+)
+from utils.evaluation_utils_llm import (
+    SemanticEvaluator
 )
 
-def count_tokens(text: str) -> int:
+def main(include_data: bool=False) -> str:
     """
-    Simple approximation of token count - might want to replace with a more accurate tokenizer 
-    specific to your model if precision is critical.
+    Run inference with model and perform per-question semantic evaluation.
+        
+    Returns:
+    --------
+    str:
+        Path to the evaluation results file
     """
-    return len(text.split())
-
-def main(include_data=False):
-    """
-    Main evaluation function that processes test questions and calculates metrics.
-    """
-    # Configuration
     model_name = "deepseek-r1:1.5b"
     test_file = "test_QA"
     knowledge_dir = "./knowledge_base"
     top_k = 10
     output_dir = "./evaluation_results"
-    
+    evaluator_model = "deepseek-r1:1.5b"
+
     # Create timestamp for filenames
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    results_file = f"{output_dir}/eval_{model_name.replace(':', '_')}_{timestamp}.json"
+    results_file = f"{output_dir}/llm_eval_{model_name.replace(':', '_')}_{timestamp}.json"
     
     # Make sure output directory exists
     os.makedirs(output_dir, exist_ok=True)
@@ -47,49 +43,52 @@ def main(include_data=False):
     SYSTEM_PROMPT = (
         "You are a helpful reading assistant who answers questions based on snippets of text provided in context. "
         "Answer only using the context provided, being as concise as possible. If you're unsure, just say that you don't know.\n"
-        "Instructions: AnGive a brief, to-the-point answer. Keep your answer as short as possible.\n"
+        "Instructions: Give a brief, to-the-point answer. Keep your answer as short as possible.\n"
         "Context:\n\n"
     )
 
-     # Add latest battery data if requested
+    # Add latest battery data if requested
     if include_data:
         battery_data = read_latest_description()
         if battery_data:
-            results_file = f"{output_dir}/eval_with_data_{model_name.replace(':', '_')}_{timestamp}.json"
+            results_file = f"{output_dir}/llm_eval_with_data_{model_name.replace(':', '_')}_{timestamp}.json"
             print(f"Including latest battery data in evaluation")
 
     # Load test questions
     q_a_pairs = load_test_questions(test_file, docs_dir="./docs")
     if not q_a_pairs:
         print("No test questions found. Exiting.")
-        return
+        return ""
     
     print(f"Starting evaluation with {len(q_a_pairs)} questions using model {model_name}...")
     
     # Initialize results storage
     results = {
         "model": model_name,
+        "evaluator_model": evaluator_model,
         "test_file": test_file,
         "timestamp": timestamp,
         "questions": [],
         "metrics": {}
     }
     
-    # Track correct answers and metrics
+    # Track metrics
     correct_count = 0
-    total_precision = 0
-    total_recall = 0
-    total_f1 = 0
-    total_similarity = 0
+    semantic_correctness_total = 0
+    semantic_completeness_total = 0
+    semantic_conciseness_total = 0
+    semantic_overall_total = 0
     total_time = 0
     total_tokens = 0
     
+    # Initialize semantic evaluator
+    evaluator = SemanticEvaluator(evaluator_model=evaluator_model, output_dir=output_dir)
+    
     # Process each question-answer pair
     for i, pair in enumerate(q_a_pairs):
-        
         user_query = pair["question"]
         
-        # add the data to the query if requested
+        # Add data to the query if requested
         if include_data and battery_data:
             user_query = f"Given this battery information: '{battery_data}', please answer: {user_query}"
         
@@ -127,7 +126,7 @@ def main(include_data=False):
         # Get the actual answer
         model_answer = response["message"]["content"].strip()
         
-        # remove the thiking part from the answer
+        # Remove the thinking part from the answer
         if "<think>\n" in model_answer and "</think>\n" in model_answer:    
             actual_answer = re.sub(r'<think>\n.*?</think>\n\n', '', model_answer, flags=re.DOTALL)
         else:
@@ -135,73 +134,93 @@ def main(include_data=False):
         print(f"Model: {actual_answer}")
         
         # Count tokens in the response
-        token_count = count_tokens(actual_answer)
+        token_count = len(actual_answer.split())
         tokens_per_second = token_count / generation_time if generation_time > 0 else 0
         time_per_token = generation_time / token_count if token_count > 0 else 0
         
-        print(f"Generation time: {generation_time:.2f}s for {token_count} tokens")
-        print(f"Time per token: {time_per_token*1000:.2f} ms")
-        print(f"Tokens per second: {tokens_per_second:.2f}")
-
-        # Calculate metrics
-        token_metrics = calculate_token_metrics(expected_answer, actual_answer)
+        # Perform semantic evaluation for this question
+        print("Evaluating answer semantically...")
+        semantic_eval = evaluator.evaluate_answer(expected_answer, actual_answer)
         
-        # Determine if recall is 1
-        if token_metrics['recall'] == 1.0:
+        # Update semantic metrics totals
+        semantic_correctness_total += semantic_eval['semantic_correctness']
+        semantic_completeness_total += semantic_eval['completeness']
+        semantic_conciseness_total += semantic_eval['conciseness']
+        semantic_overall_total += semantic_eval['overall_score']
+        
+        # Consider answer correct if overall semantic score is high enough
+        if semantic_eval['overall_score'] >= 0.8:
             correct_count += 1
         
-        # Update totals
-        total_precision += token_metrics['precision']
-        total_recall += token_metrics['recall']
-        total_f1 += token_metrics['f1']
+        # Update time and token totals
         total_time += generation_time
         total_tokens += token_count
         
-        # Print metric summary
-        print(f"Metrics:")
-        print(f"  - Precision: {token_metrics['precision']:.2f}")
-        print(f"  - Recall: {token_metrics['recall']:.2f}")
-        print(f"  - F1: {token_metrics['f1']:.2f}")
+        # Print metrics summary
+        print(f"Generation time: {generation_time:.2f}s for {token_count} tokens")
+        print(f"Time per token: {time_per_token*1000:.2f} ms")
+        print(f"Tokens per second: {tokens_per_second:.2f}")
+        print(f"Semantic scores:")
+        print(f"  - Correctness: {semantic_eval['semantic_correctness']:.2f}")
+        print(f"  - Completeness: {semantic_eval['completeness']:.2f}")
+        print(f"  - Conciseness: {semantic_eval['conciseness']:.2f}")
+        print(f"  - Overall: {semantic_eval['overall_score']:.2f}")
         
-        # Store result
+        # Store result with semantic evaluation
         question_result = {
             "question": user_query,
             "expected_answer": expected_answer,
-            "actual_answer": model_answer,
-            "precision": token_metrics['precision'],
-            "recall": token_metrics['recall'],
-            "f1": token_metrics['f1'],
-            "sources": sources[:5],  # Store top 5 sources for reference
+            "actual_answer": actual_answer,
             "generation_time": generation_time,
             "token_count": token_count,
+            "tokens_per_second": tokens_per_second,
             "time_per_token": time_per_token,
-            "tokens_per_second": tokens_per_second
+            "sources": sources[:5],  # Store top 5 sources for reference
+            "semantic_evaluation": semantic_eval
         }
         results["questions"].append(question_result)
     
-    # Calculate average time per token across all questions
+    # Calculate overall metrics
+    total_questions = len(q_a_pairs)
+    
+    # Calculate average time per token
     avg_time_per_token = total_time / total_tokens if total_tokens > 0 else 0
     avg_tokens_per_second = total_tokens / total_time if total_time > 0 else 0
     
-    # Calculate overall metrics
-    total_questions = len(q_a_pairs)
+    # Calculate average semantic scores
+    avg_semantic_correctness = semantic_correctness_total / total_questions if total_questions > 0 else 0
+    avg_semantic_completeness = semantic_completeness_total / total_questions if total_questions > 0 else 0
+    avg_semantic_conciseness = semantic_conciseness_total / total_questions if total_questions > 0 else 0
+    avg_semantic_overall = semantic_overall_total / total_questions if total_questions > 0 else 0
+    
+    # Add all metrics to results
     results["metrics"] = {
         "total_questions": total_questions,
         "correct_answers": correct_count,
         "accuracy": correct_count / total_questions if total_questions > 0 else 0,
-        "precision": total_precision / total_questions if total_questions > 0 else 0,
-        "recall": total_recall / total_questions if total_questions > 0 else 0,
-        "f1": total_f1 / total_questions if total_questions > 0 else 0,
-        "similarity": total_similarity / total_questions if total_questions > 0 else 0,
+        "semantic_correctness": avg_semantic_correctness,
+        "semantic_completeness": avg_semantic_completeness,
+        "semantic_conciseness": avg_semantic_conciseness,
+        "semantic_overall": avg_semantic_overall,
         "total_generation_time": total_time,
         "total_tokens_generated": total_tokens,
         "avg_time_per_token": avg_time_per_token,
-        "avg_time_per_token_ms": avg_time_per_token * 1000,  # in milliseconds
+        "avg_time_per_token_ms": avg_time_per_token * 1000,
         "avg_tokens_per_second": avg_tokens_per_second
     }
     
     # Print overall results
-    print_metrics_summary(results["metrics"], model_name)
+    print("\n" + "="*50)
+    print("EVALUATION SUMMARY")
+    print("="*50)
+    print(f"Total questions: {total_questions}")
+    print(f"Correct answers: {correct_count}")
+    print(f"Accuracy: {results['metrics']['accuracy']:.4f}")
+    print(f"\nSemantic Metrics:")
+    print(f"  - Correctness: {avg_semantic_correctness:.4f}")
+    print(f"  - Completeness: {avg_semantic_completeness:.4f}")
+    print(f"  - Conciseness: {avg_semantic_conciseness:.4f}")
+    print(f"  - Overall Score: {avg_semantic_overall:.4f}")
     print(f"\nGeneration Performance:")
     print(f"  - Total time: {total_time:.2f}s")
     print(f"  - Total tokens: {total_tokens}")
@@ -211,6 +230,8 @@ def main(include_data=False):
     # Save results to file
     save_results(results, results_file)
     print(f"\nFull evaluation results saved to {results_file}")
+    
+    return results_file
 
 if __name__ == "__main__":
     import argparse
@@ -220,6 +241,6 @@ if __name__ == "__main__":
     parser.add_argument('--data', action='store_true', help='Include latest battery data in the prompt')
 
     args = parser.parse_args()
-    
+        
     # Run evaluation with command line arguments
     main(include_data=args.data)
