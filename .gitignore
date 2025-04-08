@@ -5,3 +5,5 @@ labeled_data/
 env/
 
 knowledge_base/
+
+evaluation_results/
