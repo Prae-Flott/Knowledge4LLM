@@ -19,11 +19,12 @@ def main():
         user_query, 
         knowledge_dir="./knowledge_base", 
         modelname="nomic-embed-text", 
-        top_k=10)
+        top_k=20)
 
     # Create a chat prompt by combining a system prompt and the context from the similar paragraphs.
     response = ollama.chat(
-        model="deepseek-r1:1.5b",
+        # model="deepseek-r1:1.5b",
+        model="qwen2.5:32b",
         messages=[
             {
                 "role": "system",
