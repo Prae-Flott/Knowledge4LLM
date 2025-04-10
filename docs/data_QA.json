@@ -1,0 +1,57 @@
+[
+    {
+        "description": "Data Battery Percentage %, From 2024-08-08 09:54:39 to 2024-08-08 09:59:39, the minimum value was 85.00, the maximum value was 87.00, and the average value was 85.94. The dominant frequency component was approximately 0.0133 Hz. The standard deviation was 0.42. No peaks were detected.",
+        "question": "Does the robot require maintenance? If so, what is the reason?",
+        "answer": "The robot does not require maintenance. The battery loading percentage is 85.00, which is higher than 20.00. The data shows a stable battery percentage with no significant fluctuations or peaks detected."
+    },
+    {
+        "description": "Data Battery Voltage (V), From 2024-08-08 09:54:39 to 2024-08-08 09:59:39, the minimum value was 15.71, the maximum value was 15.76, and the average value was 15.74. The dominant frequency component was approximately 0.0033 Hz. The standard deviation was 0.01. There were 3 peaks detected. The highest peak had a value of 15.76 and occurred at 09:54:51.",
+        "question": "Does the battery require maintenance? What is the future trend of the battery voltage?",
+        "answer": "The robot does not require maintenance. The battery voltage will likely continue to decline in the future."
+    },
+    {
+        "description": "Data cliff_front_left, From 2024-08-08 09:54:39 to 2024-08-08 09:59:39, the minimum value was 2194.00, the maximum value was 2211.00, and the average value was 2203.11. The dominant frequency component was approximately 0.0067 Hz. The standard deviation was 2.94. There were 8 peaks detected. The highest peak had a value of 2211.00 and occurred at 09:57:57.",
+        "question": "Does the robot require maintenance? If so, what could be the reason?",
+        "answer": "The robot does not require maintenance. The left cliff sensor values are within the normal range. The reason could be a foreign object stuck between the robot and the ground."
+    },
+    {
+        "description": "Data cliff_front_right, From 2024-08-08 09:54:39 to 2024-08-08 09:59:39, the minimum value was 2220.00, the maximum value was 2244.00, and the average value was 2231.57. The dominant frequency component was approximately 0.0133 Hz. The standard deviation was 3.98. There were 6 peaks detected. The highest peak had a value of 2244.00 and occurred at 09:57:57.",
+        "question": "Does the robot require maintenance? What is the future trend of the cliff_front_right?",
+        "answer": "The robot does not require maintenance. The right cliff sensor values are within the normal range. The data shows periodic vibration around the average value."
+    },
+    {
+        "description": "Data pwm_left, From 2024-08-08 09:54:39 to 2024-08-08 09:59:39, the minimum value was -6883.00, the maximum value was 12033.00, and the average value was 7130.01. The dominant frequency component was approximately 0.0100 Hz. The standard deviation was 6287.52. No peaks were detected.",
+        "question": "Does the wheel require maintenance? If so, what could be the reason?",
+        "answer": "The robot does not require maintenance. The pwm_left value is within the normal range. The reason could be dirt, hair, or small particles sticking to the wheel or axle, causing the motor torque to be higher than normal."
+    },
+    {
+        "description": "Data pwm_right, From 2024-08-08 09:54:39 to 2024-08-08 09:59:39, the minimum value was -6781.00, the maximum value was 12685.00, and the average value was 8088.07. The dominant frequency component was approximately 0.0100 Hz. The standard deviation was 5118.44. No peaks were detected.",
+        "question": "Does the wheel require maintenance? What is the future trend of the pwm on the right motor?",
+        "answer": "The robot does not require maintenance. The pwm_right value is within the normal range. The data changes periodically."
+    },
+    {
+        "description": "Data Percentage %, From 2024-08-20 20:40:42 to 2024-08-20 20:45:42, the minimum value was 6.00, the maximum value was 8.00, and the average value was 6.70. The dominant frequency component was approximately 0.0033 Hz. The standard deviation was 0.48. No peaks were detected.",
+        "question": "Does the robot require maintenance? If so, what could be the reason?",
+        "answer": "The robot requires maintenance. The minimum battery loading percentage is 6.00, which is lower than 20.00. The reason could be a misconnection with the docking station or the robot being stuck somewhere and unable to return to charge."
+    },
+    {
+        "description": "Data cliff_front_right, From 2024-08-08 15:45:06 to 2024-08-08 15:50:06, the minimum value was 2255.00, the maximum value was 2264.00, and the average value was 2258.57. The dominant frequency component was approximately 0.1833 Hz. The standard deviation was 1.70. There were 8 peaks detected. The highest peak had a value of 2264.00 and occurred at 15:47:32.",
+        "question": "Does the robot require maintenance? If so, what could be the reason?",
+        "answer": "The robot requires maintenance. The maximum value of cliff_front_right is 2264.00, which is higher than 2250.00. The reason could be a foreign object stuck between the robot and the ground."
+    },
+    {
+        "description": "Data cliff_front_left, From 2024-08-08 15:45:06 to 2024-08-08 15:50:06, the minimum value was 2196.00, the maximum value was 2203.00, and the average value was 2199.43. The dominant frequency component was approximately 0.0133 Hz. The standard deviation was 1.24. There were 3 peaks detected. The highest peak had a value of 2203.00 and occurred at 15:48:42. Data cliff_front_right, From 2024-08-08 15:45:06 to 2024-08-08 15:50:06, the minimum value was 2255.00, the maximum value was 2264.00, and the average value was 2258.57. The dominant frequency component was approximately 0.1833 Hz. The standard deviation was 1.70. There were 8 peaks detected. The highest peak had a value of 2264.00 and occurred at 15:47:32.",
+        "question": "Does the robot require maintenance? If so, what could be the reason?",
+        "answer": "The robot requires maintenance. The maximum value of cliff_front_right is 2264.00, which is higher than 2250.00. The reason could be a foreign object stuck between the robot and the ground."
+    },
+    {
+        "description": "Data Voltage (V), From 2024-08-20 20:40:42 to 2024-08-20 20:45:42, the minimum value was 13.77, the maximum value was 13.84, and the average value was 13.80. The dominant frequency component was approximately 0.0033 Hz. The standard deviation was 0.02. There were 2 peaks detected. The highest peak had a value of 13.83 and occurred at 20:40:57. Data Percentage %, From 2024-08-20 20:40:42 to 2024-08-20 20:45:42, the minimum value was 6.00, the maximum value was 8.00, and the average value was 6.70. The dominant frequency component was approximately 0.0033 Hz. The standard deviation was 0.48. No peaks were detected.",
+        "question": "Does the wheel require maintenance? What is the future trend of the wheel_right?",
+        "answer": "The robot requires maintenance. The minimum battery loading percentage is 6.00, which is lower than 20.00. The reason could be a misconnection with the docking station or the robot being stuck somewhere and unable to return to charge."
+    },
+    {
+        "description": "Data pwm_left, From 2024-08-15 16:09:42 to 2024-08-15 16:14:42, the minimum value was -11032.00, the maximum value was 16847.00, and the average value was 10567.30. The dominant frequency component was approximately 0.0300 Hz. The standard deviation was 8694.05. No peaks were detected. Data pwm_right, From 2024-08-15 16:09:42 to 2024-08-15 16:14:42, the minimum value was -8877.00, the maximum value was 16349.00, and the average value was 11438.39. The dominant frequency component was approximately 0.0233 Hz. The standard deviation was 5482.09. No peaks were detected.",
+        "question": "Does the robot require maintenance? If so, what could be the reason?",
+        "answer": "The robot requires maintenance. The pwm value of both motors are higher than 14,000. The reason could be dirt, hair, or small particles sticking to the wheel or axle, causing the motor torque to be higher than normal."
+    }
+]

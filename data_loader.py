@@ -185,8 +185,8 @@ def main():
     """
     # Define output directory and file path
     output_dir = './labeled_data'
-    file_path = './labeled_data/experiment0808.xlsx'
-    value_col = 'Percentage %'  # Optional, set to None to use default
+    file_path = './labeled_data/wheel_wrapped.xlsx'
+    value_col = 'pwm_right'  # Optional, set to None to use default
     
     # Process the file and get the last description
     last_description = load_data(file_path, output_dir, value_col)
