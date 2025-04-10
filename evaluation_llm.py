@@ -26,16 +26,16 @@ def main(include_data: bool=False) -> str:
     str:
         Path to the evaluation results file
     """
-    model_name = "deepseek-r1:1.5b"
+    model_name = "qwen2.5:32b"
     test_file = "test_QA"
     knowledge_dir = "./knowledge_base"
     top_k = 10
     output_dir = "./evaluation_results"
-    evaluator_model = "deepseek-r1:1.5b"
+    evaluator_model = "gemma3:4b"
 
     # Create timestamp for filenames
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    results_file = f"{output_dir}/llm_eval_{model_name.replace(':', '_')}_{timestamp}.json"
+    results_file = f"{output_dir}/llm_no_know_eval_{model_name.replace(':', '_')}_{timestamp}.json"
     
     # Make sure output directory exists
     os.makedirs(output_dir, exist_ok=True)

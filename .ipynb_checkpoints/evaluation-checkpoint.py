@@ -2,6 +2,7 @@ import os
 import re
 import json
 import ollama
+import time
 from datetime import datetime
 from typing import Dict, List, Any
 
@@ -18,6 +19,13 @@ from utils.evaluation_utils import (
     print_metrics_summary
 )
 
+def count_tokens(text: str) -> int:
+    """
+    Simple approximation of token count - might want to replace with a more accurate tokenizer 
+    specific to your model if precision is critical.
+    """
+    return len(text.split())
+
 def main(include_data=False):
     """
     Main evaluation function that processes test questions and calculates metrics.
@@ -31,7 +39,7 @@ def main(include_data=False):
     
     # Create timestamp for filenames
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    results_file = f"{output_dir}/eval_{model_name.replace(':', '_')}_{timestamp}.json"
+    results_file = f"{output_dir}/no_knowledge_eval_{model_name.replace(':', '_')}_{timestamp}.json"
     
     # Make sure output directory exists
     os.makedirs(output_dir, exist_ok=True)
@@ -73,6 +81,8 @@ def main(include_data=False):
     total_recall = 0
     total_f1 = 0
     total_similarity = 0
+    total_time = 0
+    total_tokens = 0
     
     # Process each question-answer pair
     for i, pair in enumerate(q_a_pairs):
@@ -95,6 +105,9 @@ def main(include_data=False):
             modelname="nomic-embed-text", 
             top_k=top_k)
 
+        # Start timing
+        start_time = time.time()
+        
         # Create a chat prompt by combining a system prompt and the context
         response = ollama.chat(
             model=model_name,
@@ -107,6 +120,10 @@ def main(include_data=False):
             ],
         )
         
+        # End timing
+        end_time = time.time()
+        generation_time = end_time - start_time
+        
         # Get the actual answer
         model_answer = response["message"]["content"].strip()
         
@@ -116,6 +133,15 @@ def main(include_data=False):
         else:
             actual_answer = model_answer
         print(f"Model: {actual_answer}")
+        
+        # Count tokens in the response
+        token_count = count_tokens(actual_answer)
+        tokens_per_second = token_count / generation_time if generation_time > 0 else 0
+        time_per_token = generation_time / token_count if token_count > 0 else 0
+        
+        print(f"Generation time: {generation_time:.2f}s for {token_count} tokens")
+        print(f"Time per token: {time_per_token*1000:.2f} ms")
+        print(f"Tokens per second: {tokens_per_second:.2f}")
 
         # Calculate metrics
         token_metrics = calculate_token_metrics(expected_answer, actual_answer)
@@ -128,6 +154,8 @@ def main(include_data=False):
         total_precision += token_metrics['precision']
         total_recall += token_metrics['recall']
         total_f1 += token_metrics['f1']
+        total_time += generation_time
+        total_tokens += token_count
         
         # Print metric summary
         print(f"Metrics:")
@@ -143,9 +171,17 @@ def main(include_data=False):
             "precision": token_metrics['precision'],
             "recall": token_metrics['recall'],
             "f1": token_metrics['f1'],
-            "sources": sources[:5]  # Store top 5 sources for reference
+            "sources": sources[:5],  # Store top 5 sources for reference
+            "generation_time": generation_time,
+            "token_count": token_count,
+            "time_per_token": time_per_token,
+            "tokens_per_second": tokens_per_second
         }
         results["questions"].append(question_result)
+    
+    # Calculate average time per token across all questions
+    avg_time_per_token = total_time / total_tokens if total_tokens > 0 else 0
+    avg_tokens_per_second = total_tokens / total_time if total_time > 0 else 0
     
     # Calculate overall metrics
     total_questions = len(q_a_pairs)
@@ -156,11 +192,21 @@ def main(include_data=False):
         "precision": total_precision / total_questions if total_questions > 0 else 0,
         "recall": total_recall / total_questions if total_questions > 0 else 0,
         "f1": total_f1 / total_questions if total_questions > 0 else 0,
-        "similarity": total_similarity / total_questions if total_questions > 0 else 0
+        "similarity": total_similarity / total_questions if total_questions > 0 else 0,
+        "total_generation_time": total_time,
+        "total_tokens_generated": total_tokens,
+        "avg_time_per_token": avg_time_per_token,
+        "avg_time_per_token_ms": avg_time_per_token * 1000,  # in milliseconds
+        "avg_tokens_per_second": avg_tokens_per_second
     }
     
     # Print overall results
     print_metrics_summary(results["metrics"], model_name)
+    print(f"\nGeneration Performance:")
+    print(f"  - Total time: {total_time:.2f}s")
+    print(f"  - Total tokens: {total_tokens}")
+    print(f"  - Avg. time per token: {avg_time_per_token*1000:.2f} ms")
+    print(f"  - Avg. tokens per second: {avg_tokens_per_second:.2f}")
     
     # Save results to file
     save_results(results, results_file)

@@ -39,7 +39,7 @@ def main(include_data=False):
     
     # Create timestamp for filenames
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    results_file = f"{output_dir}/eval_{model_name.replace(':', '_')}_{timestamp}.json"
+    results_file = f"{output_dir}/no_knowledge_eval_{model_name.replace(':', '_')}_{timestamp}.json"
     
     # Make sure output directory exists
     os.makedirs(output_dir, exist_ok=True)
