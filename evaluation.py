@@ -32,7 +32,7 @@ def main(include_data=False):
     """
     # Configuration
     model_name = "deepseek-r1:1.5b"
-    test_file = "test_QA"
+    test_file = "data_QA"
     knowledge_dir = "./knowledge_base"
     top_k = 10
     output_dir = "./evaluation_results"
@@ -51,9 +51,8 @@ def main(include_data=False):
         "Context:\n\n"
     )
 
-     # Add latest battery data if requested
+    # Add latest battery data if requested
     if include_data:
-        battery_data = read_latest_description()
         if battery_data:
             results_file = f"{output_dir}/eval_with_data_{model_name.replace(':', '_')}_{timestamp}.json"
             print(f"Including latest battery data in evaluation")
@@ -90,7 +89,8 @@ def main(include_data=False):
         user_query = pair["question"]
         
         # add the data to the query if requested
-        if include_data and battery_data:
+        if include_data:
+            battery_data = pair["description"]
             user_query = f"Given this battery information: '{battery_data}', please answer: {user_query}"
         
         expected_answer = pair["answer"]
