@@ -47,7 +47,7 @@ def main(include_data=False):
     SYSTEM_PROMPT = (
         "You are a helpful reading assistant who answers questions based on snippets of text provided in context. "
         "Answer only using the context provided, being as concise as possible. If you're unsure, just say that you don't know.\n"
-        "Instructions: AnGive a brief, to-the-point answer. Keep your answer as short as possible.\n"
+        "Instructions: Give a brief, to-the-point answer. Keep your answer as short as possible.\n"
         "Context:\n\n"
     )
 
