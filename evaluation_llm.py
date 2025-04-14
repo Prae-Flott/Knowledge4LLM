@@ -35,13 +35,13 @@ def main(include_data: bool=False) -> str:
 
     # Create timestamp for filenames
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    results_file = f"{output_dir}/llm_no_know_eval_{model_name.replace(':', '_')}_{timestamp}.json"
+    results_file = f"{output_dir}/infere_llm_no_know_eval_{model_name.replace(':', '_')}_{timestamp}.json"
     
     # Make sure output directory exists
     os.makedirs(output_dir, exist_ok=True)
     
     SYSTEM_PROMPT = (
-        "You are a helpful reading assistant who answers questions based on snippets of text provided in context. "
+        "You are a helpful mobile robot fault prediction and diagnosis assistant who answers questions based on snippets of text provided in context."
         "Answer only using the context provided, being as concise as possible. If you're unsure, just say that you don't know.\n"
         "Instructions: Give a brief, to-the-point answer. Keep your answer as short as possible.\n"
         "Context:\n\n"
@@ -49,10 +49,9 @@ def main(include_data: bool=False) -> str:
 
     # Add latest battery data if requested
     if include_data:
-        battery_data = read_latest_description()
-        if battery_data:
-            results_file = f"{output_dir}/llm_eval_with_data_{model_name.replace(':', '_')}_{timestamp}.json"
-            print(f"Including latest battery data in evaluation")
+        results_file = f"{output_dir}/llm_eval_with_data_{model_name.replace(':', '_')}_{timestamp}.json"
+        print(f"Including latest battery data in evaluation")
+            
 
     # Load test questions
     q_a_pairs = load_test_questions(test_file, docs_dir="./docs")
@@ -89,8 +88,9 @@ def main(include_data: bool=False) -> str:
         user_query = pair["question"]
         
         # Add data to the query if requested
-        if include_data and battery_data:
-            user_query = f"Given this battery information: '{battery_data}', please answer: {user_query}"
+        if include_data:
+            robo_data = pair["description"]
+            user_query = f"Given this robot running data: '{robo_data}', please answer: {user_query}"
         
         expected_answer = pair["answer"]
         
