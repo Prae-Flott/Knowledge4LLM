@@ -12,8 +12,8 @@
     "answer": "Camera contamination degrades vision, leading to incorrect object recognition, poor navigation, and increased risk of collisions, which negatively affects system performance and increases failure rates."
   },
   {
-    "question": "What role does the IR sensor play in ensuring the robot avoids obstacles, and what is the consequence of its contamination?",
-    "answer": "The IR sensor helps detect obstacles, and contamination disrupts its function, leading to poor obstacle detection, misjudgment of distances, and increased collision risk."
+    "question": "What role does the IR sensor play in ensuring the robot avoids obstacles, and what is the consequence of its contamination to a subsystem, to a robot, and to a multi-robot system?",
+    "answer": "The IR sensor helps detect obstacles, and contamination disrupts its function, leading to poor obstacle detection, misjudgment of distances, and increased collision risk or block of a robot, and if the block robot number is high, the multi-robot system are not able to complate the task."
   },
   {
     "question": "What could be the long-term impact on the robot if wheel blockage is not detected and addressed?",

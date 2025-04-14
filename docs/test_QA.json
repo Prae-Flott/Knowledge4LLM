@@ -48,7 +48,7 @@
       "answer": "Dust, oil, ineffective sealing."
     },
     {
-      "question": "Which component failure could lead to partial system failure or malfunctions?",
+      "question": "Which component failure could lead to sensing partial system failure or malfunctions?",
       "answer": "Camera contamination."
     },
     {
@@ -169,7 +169,7 @@
     },
     {
       "question": "What failure mode involves contamination affecting the sensor’s ability to detect obstacles?",
-      "answer": "IR sensor contamination."
+      "answer": "IR sensor contamination, Camera contamination."
     },
     {
       "question": "Which failure mode is associated with high frequency of occurrence?",
@@ -181,7 +181,7 @@
     },
     {
       "question": "Which failure mode involves poor sensor performance from contamination?",
-      "answer": "IR sensor contamination."
+      "answer": "IR sensor contamination, Camera contamination."
     },
     {
       "question": "What is the primary detection method for camera contamination?",
@@ -204,7 +204,7 @@
       "answer": "Prevents task completion."
     },
     {
-      "question": "Which ROS2 topic monitors robot status during blockage?",
+      "question": "Which ROS2 topic monitors robot trapped status during blockage?",
       "answer": "/kidnap_status."
     },
     {
@@ -217,7 +217,7 @@
     },
     {
       "question": "What is a primary cause of wheel blockage?",
-      "answer": "Mechanical damage or debris."
+      "answer": "Dirt, debris, mechanical failure"
     },
     {
       "question": "What failure mode could cause a robot to become stuck?",
@@ -237,7 +237,7 @@
     },
     {
       "question": "Which failure mode causes abnormal behavior due to improper sensor sealing?",
-      "answer": "IR sensor contamination."
+      "answer": "IR sensor contamination, Camera contamination."
     },
     {
       "question": "What failure mode is caused by the robot getting stuck?",

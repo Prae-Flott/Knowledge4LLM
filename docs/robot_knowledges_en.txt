@@ -38,7 +38,7 @@ According to expert opinion, the frequency of failure charging failure is low, i
 
 Severity:
 
-According to expert opinion, the severity of failure camera contamination is moderate, i.e., in the case of a severe risk failure in the robot system, partial system failure or malfunctions may occur, which could hinder the achievement of the intended purpose.
+According to expert opinion, the severity of failure camera contamination is moderate, i.e., in the case of a severe risk failure in the robot system, sensing partial system failure or malfunctions may occur, which could hinder the achievement of the intended purpose.
 
 According to expert opinion, the severity of failure IR sensor contamination is high, i.e., a serious failure in the robot system could lead to system outages, injuries, and financial losses.
 
