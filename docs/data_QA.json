@@ -31,7 +31,7 @@
     },
     {
         "description": "Data Percentage %, From 2024-08-20 20:40:42 to 2024-08-20 20:45:42, the minimum value was 6.00, the maximum value was 8.00, and the average value was 6.70. The dominant frequency component was approximately 0.0033 Hz. The standard deviation was 0.48. No peaks were detected.",
-        "question": "Does the robot require maintenance? If so, what could be the reason?",
+        "question": "Does the battery require maintenance? If so, what could be the reason?",
         "answer": "The robot requires maintenance. The minimum battery loading percentage is 6.00, which is lower than 20.00. The reason could be a misconnection with the docking station or the robot being stuck somewhere and unable to return to charge."
     },
     {
@@ -46,7 +46,7 @@
     },
     {
         "description": "Data Voltage (V), From 2024-08-20 20:40:42 to 2024-08-20 20:45:42, the minimum value was 13.77, the maximum value was 13.84, and the average value was 13.80. The dominant frequency component was approximately 0.0033 Hz. The standard deviation was 0.02. There were 2 peaks detected. The highest peak had a value of 13.83 and occurred at 20:40:57. Data Percentage %, From 2024-08-20 20:40:42 to 2024-08-20 20:45:42, the minimum value was 6.00, the maximum value was 8.00, and the average value was 6.70. The dominant frequency component was approximately 0.0033 Hz. The standard deviation was 0.48. No peaks were detected.",
-        "question": "Does the wheel require maintenance? What is the future trend of the wheel_right?",
+        "question": "Does the battery require maintenance? What is the future trend of the battery voltage?",
         "answer": "The robot requires maintenance. The minimum battery loading percentage is 6.00, which is lower than 20.00. The reason could be a misconnection with the docking station or the robot being stuck somewhere and unable to return to charge."
     },
     {
