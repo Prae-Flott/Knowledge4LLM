@@ -40,8 +40,8 @@
     "answer": "Contaminated IR sensors would fail to detect obstacles accurately in tight spaces, leading to collisions or an inability to navigate around small objects."
   },
   {
-    "question": "How might the absence of a high-quality motor affect the robot's movement, considering its critical role in powering motion?",
-    "answer": "A faulty motor can cause the robot to become completely immobile, as it powers movement, leading to a complete operational halt."
+    "question": "What is the possible reason of robot blockage? And which components that could be responsible for that?",
+    "answer": "Navigation failure, as sensors was covered, and the robot not able to detect obsticals; Wheel blockage, as the wheels are entangled with debris."
   },
   {
     "question": "If camera contamination leads to poor image quality, what broader system-level consequences could occur in a multi-robot system?",
