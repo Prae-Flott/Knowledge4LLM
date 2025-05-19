@@ -1,6 +1,7 @@
 # DelphiRAG: Enhancing LLMs Time Serial Inference with Human Experts Study
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Ollama](https://img.shields.io/badge/ollama-white?style=for-the-badge&logo=ollama&logoColor=black)
 
 ## Abstract
 
@@ -12,33 +13,53 @@ In this work, we propose a novel and efficient framework that facilitates integr
 
 ```text
 Knowledge4LLM/
-├── doc/              # original knowledge from the website and summarized from the Delphi study
-├── include/
-│   └── Header file of the publisher
-├── launch/
-│   ├── old_lidar/
-│   │   └── Python files from create3_examples/create3_lidar_slam
-│   ├── old_nolidar/
-│   │   └── Python files based on create3_examples/create3_lidar_slam with modifications
-│   ├── launch_publisher.py (C++ tester)
-│   └── Python files (shortcuts) to launch all lidar or all no lidar files
-├── run/
-│   ├── map.py
-│   ├── run_avoider.py
-│   └── run_mapper.py
-└── src/
-    └── Implementation file of the publisher
+├── doc/                # original knowledge from website and Expert study; and the questions for evaluation
+├── knowledge_base/     # embedded knowledge  
+├── utils/              # some sub-functions
+│   ├── data_to_text.py
+│   ├── embedding_utils.py
+│   ├── evaluation_utils_llm.py
+│   └── evaluation_utils.py
+├── data_loader.py      # load the time serial data
+├── knowledge_loader.py # load the knowledges in /doc, and vectorized them
+├── utils/
+└── main.py
 ```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- Python 3.8+
+- Python 3.10
 - PyTorch
-- Hugging Face Transformers
-- FAISS (for retrieval)
+- Ollama
 - Pandas, NumPy, Scikit-learn
-- Jupyter
+- Jupyter 
 
-### Run a example
+### Run an example
+
+- Run the knowledge-to-RAG transformation script:
+
+```
+python knowledge_loader.py
+```
+
+- Chat with the model by running:
+
+```
+python main.py
+```
+
+- evaluate the model performance with statistical approaches by running:
+
+```
+python evaluation.py
+```
+
+or if you want to evaluate the performance with another LLM
+
+```
+python evaluation_llm.py
+```
+
+add parameter `--data`, to switch the inference based on the time serial data.
