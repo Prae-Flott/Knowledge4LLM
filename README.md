@@ -22,8 +22,9 @@ Knowledge4LLM/
 │   └── evaluation_utils.py
 ├── data_loader.py      # load the time serial data
 ├── knowledge_loader.py # load the knowledges in /doc, and vectorized them
-├── utils/
-└── main.py
+├── evaluation.py       # evaluate the performance of the model with a statistical approaches
+├── evaluation_llm.py   # evaluate the performance another LLM
+└── main.py             # start a chat with the model
 ```
 
 ## 🚀 Getting Started
