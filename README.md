@@ -5,9 +5,7 @@
 
 ## Abstract
 
-The rapid advancement of large language models (LLMs) has revealed their impressive capabilities in semantic understanding and logical reasoning over text-based data. These developments open new avenues for integrating LLM-based inference with high-value domain knowledge from human experts. However, expert knowledge is often unstructured and limited in volume, particularly within specific industrial domains, rendering traditional fine-tuning approaches impractical.
-
-In this work, we propose a novel and efficient framework that facilitates integrating expert knowledge from a Delphi study into LLMs. We validate our framework through an experiment on a predictive maintenance (PdM) use case involving mobile robotic systems, demonstrating notable inference performance improvements with human experts’ knowledge and the feasibility of leveraging expert knowledge in data-scarce environments.
+The rapid advancement of large language models (LLMs) has revealed their impressive capabilities in semantic understanding and logical reasoning over text-based data. These developments open new avenues for integrating LLM-based inference with high-value domain knowledge from human experts. However, expert knowledge is often unstructured and limited in volume, particularly within specific industrial domains, rendering traditional fine-tuning approaches impractical. In this work, we propose a novel and efficient framework that facilitates integrating expert knowledge from a Delphi study into LLMs. We validate our framework through an experiment on a predictive maintenance (PdM) use case involving mobile robotic systems, demonstrating notable inference performance improvements with human experts’ knowledge and the feasibility of leveraging expert knowledge in data-scarce environments.
 
 ## 📁 Repository Structure
 
