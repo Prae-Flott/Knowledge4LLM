@@ -1,5 +1,4 @@
-# Enhancing LLM Inference with Human Expert Knowledge: 
-# A Case Study on Mobile Robotics Fault Diagnosis and Prediction
+# Enhancing LLM Inference with Human Expert Knowledge: A Case Study on Mobile Robotics Fault Diagnosis and Prediction
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Ollama](https://img.shields.io/badge/ollama-white?style=for-the-badge&logo=ollama&logoColor=black)
