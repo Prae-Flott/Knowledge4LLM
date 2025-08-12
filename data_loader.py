@@ -78,6 +78,19 @@ def load_data(file_path, output_dir='./docs', value_col=None):
         output_file = os.path.join(output_dir, f"{file_name_no_ext}_{value_col}.txt")
         
         print(f"Processing {file_name}...")
+
+        # Extract device name from file_name
+        file_name_parts = file_name_no_ext.split('_')
+        device_name = None
+
+        # Check if the filename follows the expected format: device_name_dataname
+        if '_' in file_name_no_ext:
+            # Assuming format is "robot01_dataname" or similar
+            device_name = file_name_parts[0]
+            print(f"  Extracted device name: {device_name}")
+        else:
+            device_name = None
+            print("  Could not extract device name: unexpected filename format")
         
         # Load the Excel file
         df = pd.read_excel(file_path)
@@ -109,6 +122,7 @@ def load_data(file_path, output_dir='./docs', value_col=None):
         
         # Extract features
         features_df = extract_features_from_time_series(
+            device_name=device_name,
             data=df,
             datetime_col=datetime_col,
             value_col=value_col,

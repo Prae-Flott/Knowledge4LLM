@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from scipy import fft
 from scipy.signal import find_peaks
 
-def extract_features_from_time_series(data, datetime_col='timestamp', value_col='value', 
+def extract_features_from_time_series(device_name, data, datetime_col='timestamp', value_col='value', 
                                      window_size=5, step_size=1):
     """
     Extract features from time series data using sliding windows.
@@ -82,8 +82,8 @@ def extract_features_from_time_series(data, datetime_col='timestamp', value_col=
             
             # Create text description
             description = (
-                f"Data {value_col}, "
-                f"From {current_time.strftime('%Y-%m-%d %H:%M:%S')} to "
+                f"Data from {device_name}, regards {value_col}, "
+                f"recorded from {current_time.strftime('%Y-%m-%d %H:%M:%S')} to "
                 f"{window_end.strftime('%Y-%m-%d %H:%M:%S')}, "
                 f"the minimum value was {min_val:.2f}, "
                 f"the maximum value was {max_val:.2f}, "
