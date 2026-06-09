@@ -7,13 +7,13 @@ from datetime import datetime
 from typing import Dict, List, Any
 
 # Import project modules
-from data_loader import read_latest_description
-from utils.embedding_utils import get_knowledge_context
-from utils.evaluation_utils import (
+from src.data_loader import read_latest_description
+from src.utils.embedding_utils import get_knowledge_context
+from src.utils.evaluation_utils import (
     load_test_questions,
     save_results
 )
-from utils.evaluation_utils_llm import (
+from src.utils.evaluation_utils_llm import (
     SemanticEvaluator
 )
 

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import numpy as np
 from scipy.signal import find_peaks
-from utils.data_to_text import extract_features_from_time_series, save_features_as_text
+from src.utils.data_to_text import extract_features_from_time_series, save_features_as_text
 
 def plot_time_series(df, datetime_col, value_col, output_dir, file_name_no_ext):
     """

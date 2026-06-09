@@ -3,7 +3,13 @@ embeddings/
 labeled_data/
 
 env/
+.env
 
 knowledge_base/
 
 evaluation_results/
+
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+*.zip

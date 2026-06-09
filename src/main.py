@@ -1,7 +1,7 @@
 import ollama
-from utils.text_spliter import parse_file
-from utils.embedding_utils import get_knowledge_context
-from data_loader import read_latest_description
+from src.utils.text_spliter import parse_file
+from src.utils.embedding_utils import get_knowledge_context
+from src.data_loader import read_latest_description
 
 
 def main():

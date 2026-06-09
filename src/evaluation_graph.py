@@ -9,9 +9,9 @@ from datetime import datetime
 from typing import Dict, List, Any, Tuple
 
 # Import project modules
-from utils.text_spliter import parse_file
-from data_loader import read_latest_description
-from utils.evaluation_utils import (
+from src.utils.text_spliter import parse_file
+from src.data_loader import read_latest_description
+from src.utils.evaluation_utils import (
     load_test_questions,
     normalize_text,
     calculate_similarity,
@@ -266,7 +266,7 @@ def main(include_data: bool = False, use_graph: bool = True) -> None:
             )
         else:
             # Fall back to traditional retrieval
-            from utils.embedding_utils import get_knowledge_context
+            from src.utils.embedding_utils import get_knowledge_context
             context, sources = get_knowledge_context(
                 user_query, 
                 knowledge_dir=traditional_kb_dir, 

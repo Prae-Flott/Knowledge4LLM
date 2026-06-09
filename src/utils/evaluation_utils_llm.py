@@ -8,10 +8,10 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional, Tuple
 
 # Import project modules
-from utils.text_spliter import parse_file
-from data_loader import read_latest_description
-from utils.embedding_utils import get_knowledge_context
-from utils.evaluation_utils import (
+from src.utils.text_spliter import parse_file
+from src.data_loader import read_latest_description
+from src.utils.embedding_utils import get_knowledge_context
+from src.utils.evaluation_utils import (
     load_test_questions,
     normalize_text,
     calculate_token_metrics,
